@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-// const { spawn } = require('child_process');
 const shell = require('shelljs');
 
 const cloneBin = require('./bin/clone');
@@ -9,6 +8,8 @@ const lsBin = require('./bin/ls');
 const newBin = require('./bin/new');
 
 const { comAdd, comUpdate, comDelete } = require('./bin/com');
+
+const { ls: swaggerLs, update: swaggerUpdate } = require('./bin/swagger');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -20,7 +21,7 @@ program
   .description('修改 json 文件，完成模板编辑')
   .option('-f, --filePath [filePath]', '命令所操作的文件')
   .option('-i, --index [index]', '所操作项在配置文件中的位置')
-  .option('-d, --direct [direct]', '直接修改，不提示', false)
+  .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
 
 program
   .command('clone')
@@ -60,14 +61,22 @@ program
     };
     (actionMap[action] || actionMap[undefined])(comName, program.index, program.filePath, program.direct);
   })
+program
+  .command('swagger <action> [filter]')
+  .description('swagger 工具')
+  .action(function (action, filter) {
+    const actionMap = {
+      'ls': (filter) => {
+        swaggerLs(filter);
+      },
+      'update': () => {
+        swaggerUpdate();
+      },
+      'undefined': () => {
+        console.log('无效的 action。可选 ls | update');
+      },
+    };
+    (actionMap[action] || actionMap[undefined])(filter);
+  })
 
 program.parse(process.argv)
-
-// const { spawn } = require('child_process');
-// const child = spawn(`${__dirname}/shell/test.sh`,[],{
-//   shell: true,
-// });
-
-// child.on('close', (code) => {
-//   console.log(code);
-// });
