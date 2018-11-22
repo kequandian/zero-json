@@ -1,18 +1,11 @@
 const fs = require('fs-extra');
 const path = require('path');
-const cwd = process.cwd();
 const ora = require('ora');
 
-module.exports = function (name,filePath = name) {
-  const currentRegex = new RegExp(/^.{1,1}\//); // 检测是否以 ./ 开头
-  const directRegex = new RegExp(/^\w+/); // 检测是否直接输入了文件名
+const filePathFormat = require('../utils/filePathFormat');
 
-  if (currentRegex.test(filePath) || directRegex.test(filePath)) {
-    filePath = `${cwd}/${filePath}`.replace(/\//g, path.sep);
-  }
-  if (path.extname(filePath) === '') {
-    filePath += '.js'
-  }
+module.exports = function (name,filePath = name) {
+  filePath = filePathFormat(filePath);
 
   const spinner = ora(`新增配置文件 ${filePath}`).start();
   const extname = path.extname(filePath);

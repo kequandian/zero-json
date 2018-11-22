@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
     "commander": "^2.19.0",
     "download-git-repo": "^1.1.0",
     "fs-extra": "^7.0.1",
