@@ -11,12 +11,12 @@ module.exports = function (comName, index, filePath, direct) {
   }
 
   if (index === undefined) {
-    index = configFile.items.length + 1;
+    index = configFile.items.length;
   }
 
+  const item = configFile.items.splice(index - 1, 1);
   configFile.items.splice(index - 1, 0, {
-    layout: 'Grid',
-    span: 24,
+    ...item[0],
     component: comName,
   });
 

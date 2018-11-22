@@ -11,14 +11,10 @@ module.exports = function (comName, index, filePath, direct) {
   }
 
   if (index === undefined) {
-    index = configFile.items.length + 1;
+    index = configFile.items.length;
   }
 
-  configFile.items.splice(index - 1, 0, {
-    layout: 'Grid',
-    span: 24,
-    component: comName,
-  });
+  configFile.items.splice(index - 1, 1);
 
   printAndConfirm(
     formatFilePath,

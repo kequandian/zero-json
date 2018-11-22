@@ -9,6 +9,8 @@ const lsBin = require('./bin/ls');
 const newBin = require('./bin/new');
 
 const addBin = require('./bin/add');
+const updateBin = require('./bin/update');
+const deleteBin = require('./bin/delete');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -20,7 +22,7 @@ program
   .description('修改 json 文件，完成模板编辑')
   .option('-f, --filePath [filePath]', '命令所操作的文件')
   .option('-i, --index [index]', '所操作项在配置文件中的位置')
-  .option('-d, --direct [direct]', '直接修改，不提示',false)
+  .option('-d, --direct [direct]', '直接修改，不提示', false)
 
 program
   .command('clone')
@@ -41,24 +43,24 @@ program
     newBin(fileName, program.filePath);
   })
 program
-  .command('cmpt <action> <cmptName>')
+  .command('com <action> <comName>')
   .description('对组件进行 增删改 操作')
-  .action(function (action, cmptName) {
+  .action(function (action, comName) {
     const actionMap = {
-      'add': (cmptName, index, filePath, direct) => {
-        addBin(cmptName, index, filePath, direct);
+      'add': (comName, index, filePath, direct) => {
+        addBin(comName, index, filePath, direct);
       },
-      'update': (cmptName, index) => {
-        console.log('修改组件', cmptName, index);
+      'update': (comName, index, filePath, direct) => {
+        updateBin(comName, index, filePath, direct);
       },
-      'delete': (cmptName, index) => {
-        console.log('删除组件', index);
+      'delete': (comName, index, filePath, direct) => {
+        deleteBin(comName, index, filePath, direct);
       },
       'undefined': () => {
         console.log('无效的 action。可选 add | update | delete');
       },
     };
-    (actionMap[action] || actionMap[undefined])(cmptName, program.index, program.filePath, program.direct);
+    (actionMap[action] || actionMap[undefined])(comName, program.index, program.filePath, program.direct);
   })
 
 program.parse(process.argv)
