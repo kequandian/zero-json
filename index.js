@@ -3,39 +3,39 @@
 const program = require('commander');
 // const { spawn } = require('child_process');
 const shell = require('shelljs');
-const ora = require('ora');
-const clone = require('./bin/clone');
+
+const cloneBin = require('./bin/clone');
+const lsBin = require('./bin/ls');
+const newBin = require('./bin/new');
+
+if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
+  console.log('请在 Git Shell 的 CLI 环境下运行');
+  return false;
+}
 
 program
   .version(require('./package').version)
   .description('修改 json 文件，完成模板编辑')
+  .option('-f, --filePath [filePath]', '命令所操作的文件')
 
 program
   .command('clone')
   .description('下载 或 更新 模板')
-  .action(function (name) {
-    const spinner = ora('正在 clone 项目 kequandian/zero-layout').start();
-
-    clone('kequandian/zero-layout', 'layout').then((msg) => {
-      spinner.succeed(msg);
-    }).catch((err) => {
-      spinner.fail(err);
-    });
-
+  .action(function () {
+    cloneBin();
   })
 program
   .command('ls')
   .description('列出可用的组件')
-  .action(function (name) {
-    const spinner = ora('').start();
-    spinner.info('当前可用组件：');
-    spinner.stopAndPersist({symbol: '>>'});
+  .action(function () {
+    lsBin();
+  })
 
-    const path = `${__dirname}/template/layout`;
-    const templateOutPath = require(`${path}/package.json`).main;
-
-    shell.exec(`cat ${path}/${templateOutPath} | grep '.default;' | grep -E -o '^(exports.)[a-zA-Z]+' | sed 's/exports.//' `);
-
+program
+  .command('new <fileName>')
+  .description('新增配置文件')
+  .action(function (fileName) {
+    newBin(fileName, program.filePath);
   })
 
 program.parse(process.argv)
