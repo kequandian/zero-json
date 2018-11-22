@@ -8,9 +8,7 @@ const cloneBin = require('./bin/clone');
 const lsBin = require('./bin/ls');
 const newBin = require('./bin/new');
 
-const addBin = require('./bin/add');
-const updateBin = require('./bin/update');
-const deleteBin = require('./bin/delete');
+const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -48,13 +46,13 @@ program
   .action(function (action, comName) {
     const actionMap = {
       'add': (comName, index, filePath, direct) => {
-        addBin(comName, index, filePath, direct);
+        comAdd(comName, index, filePath, direct);
       },
       'update': (comName, index, filePath, direct) => {
-        updateBin(comName, index, filePath, direct);
+        comUpdate(comName, index, filePath, direct);
       },
       'delete': (comName, index, filePath, direct) => {
-        deleteBin(comName, index, filePath, direct);
+        comDelete(comName, index, filePath, direct);
       },
       'undefined': () => {
         console.log('无效的 action。可选 add | update | delete');

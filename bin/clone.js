@@ -4,7 +4,7 @@ const download = require('download-git-repo');
 module.exports = function (name, path) {
   const spinner = ora('正在 clone 项目 kequandian/zero-layout').start();
 
-  cloneGit('kequandian/zero-layout', 'layout').then((msg) => {
+  return cloneGit('kequandian/zero-layout', 'layout').then((msg) => {
     spinner.succeed(msg);
   }).catch((err) => {
     spinner.fail(err);

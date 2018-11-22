@@ -1,7 +1,7 @@
 
 const ora = require('ora');
-const fileCheck = require('../utils/fileCheck');
-const printAndConfirm = require('../utils/printAndConfirm');
+const fileCheck = require('../../utils/fileCheck');
+const printAndConfirm = require('../../utils/printAndConfirm');
 
 module.exports = function (comName, index, filePath, direct) {
   const spinner = ora('').start();
