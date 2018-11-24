@@ -9,7 +9,7 @@ const newBin = require('./bin/new');
 
 const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
-const { ls: swaggerLs, update: swaggerUpdate } = require('./bin/swagger');
+const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -62,21 +62,26 @@ program
     (actionMap[action] || actionMap[undefined])(comName, program.index, program.filePath, program.direct);
   })
 program
-  .command('swagger <action> [filter]')
-  .description('swagger 工具')
-  .action(function (action, filter) {
+  .command('swagger <action> [arguments]')
+  .description([
+    'swagger 工具',
+    '  -> swagger ls [filter] 列出 swagger 可用的 API',
+    '  -> swagger format 重新 format swagger.json 文件',
+  ].join('\n'))
+  .action(function () {
+    const [action, ...restArg] = arguments;
     const actionMap = {
       'ls': (filter) => {
         swaggerLs(filter);
       },
-      'update': () => {
-        swaggerUpdate();
+      'format': () => {
+        swaggerFormat();
       },
       'undefined': () => {
-        console.log('无效的 action。可选 ls | update');
+        console.log('无效的 action。可选 ls | format');
       },
     };
-    (actionMap[action] || actionMap[undefined])(filter);
+    (actionMap[action] || actionMap[undefined])(...restArg);
   })
 
 program.parse(process.argv)
