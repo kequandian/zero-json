@@ -5,11 +5,12 @@ const shell = require('shelljs');
 
 const cloneBin = require('./bin/clone');
 const lsBin = require('./bin/ls');
-const newBin = require('./bin/new');
+const createBin = require('./bin/create');
 
 const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
+const { create: formCreate } = require('./bin/form');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -21,7 +22,8 @@ program
   .description('修改 json 文件，完成模板编辑')
   .option('-f, --filePath [filePath]', '命令所操作的文件')
   .option('-i, --index [index]', '所操作项在配置文件中的位置')
-  .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
+  .option('-d, --direct', '直接进行操作，不提示确认', false)
+  .option('--API [API]', '指定操作的 API','')
 
 program
   .command('clone')
@@ -39,7 +41,7 @@ program
   .command('new <fileName>')
   .description('新增配置文件')
   .action(function (fileName) {
-    newBin(fileName, program.filePath);
+    createBin(fileName, program.filePath);
   })
 program
   .command('com <action> <comName>')
@@ -82,6 +84,18 @@ program
       },
     };
     (actionMap[action] || actionMap[undefined])(...restArg);
+  })
+program
+  .command('form <fileName>')
+  .description('新增一个表单配置文件')
+  .description([
+    '新增一个表单配置文件',
+    '  --API 从 swagger 里面读取对应的 API 字段来生成配置文件',
+  ].join('\n'))
+  .action(function (fileName) {
+    // fixed Git Shell 会自动把 / 识别为 C:/Program Files/Git/  的毛病
+    const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+    formCreate(fileName, program.filePath, API);
   })
 
 program.parse(process.argv)
