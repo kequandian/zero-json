@@ -11,7 +11,7 @@ const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 const { create: formCreate } = require('./bin/form');
-const { init: manageInit } = require('./bin/manage');
+const { init: manageInit, add: manageAdd } = require('./bin/manage');
 
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
@@ -112,7 +112,7 @@ program
         manageInit(projectName, program.dirPath, program.direct);
       },
       'add': (pageName) => {
-        console.log(pageName);
+        manageAdd(pageName, program.dirPath);
       },
       'undefined': () => {
         console.log('无效的 action。可选 ls | format');
