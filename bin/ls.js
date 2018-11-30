@@ -7,7 +7,7 @@ module.exports = function () {
   const spinner = ora('').start();
   const path = `${__dirname}/../template/layout`;
   if (!fs.existsSync(`${path}/package.json`)) {
-    clone().then( () => {
+    clone('kequandian/zero-layout', `${__dirname}/../template/layout`).then( () => {
       list(path, spinner);
     })
   }else{
