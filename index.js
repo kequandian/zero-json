@@ -112,7 +112,8 @@ program
         manageInit(projectName, program.dirPath, program.direct);
       },
       'add': (pageName) => {
-        manageAdd(pageName, program.dirPath);
+        const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        manageAdd(pageName, program.dirPath, API);
       },
       'undefined': () => {
         console.log('无效的 action。可选 ls | format');

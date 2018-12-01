@@ -14,6 +14,19 @@ const router = function (routerFilePath) {
   delete require.cache[routerFilePath];
   const routerEntity = require(routerFilePath);
   return {
+    check: function (pageName) {
+      return routerEntity.some(route => {
+        if (route.path === '/') {
+          return route.routes.some(item => {
+            if (item.name === pageName) {
+              return true;
+            }
+            return false;
+          });
+        }
+        return false;
+      });
+    },
     // 添加新的页面级路由
     add: function (pathObject) {
       routerEntity.some(route => {
@@ -24,7 +37,7 @@ const router = function (routerFilePath) {
         }
         return false;
       });
-      
+
       return fsExtra.outputFile(
         routerFilePath,
         'module.exports = ' + JSON.stringify(routerEntity, null, 2)
