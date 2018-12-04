@@ -19,7 +19,7 @@ export default {
               items: [
                 {
                   API: {
-                    createAPI: '{{APIADDRESS}}',
+                    createAPI: 'ZERO_API',
                   },
                   layout: 'FormDefault',
                   component: 'BaseForm',
@@ -33,8 +33,8 @@ export default {
     },
     {
       API: {
-        listAPI: '{{APIADDRESS}}',
-        deleteAPI: '{{APIADDRESS}}/(id)',
+        listAPI: 'ZERO_API',
+        deleteAPI: 'ZERO_API/(id)',
       },
       span: 24,
       component: 'BaseList',
@@ -52,8 +52,8 @@ export default {
               items: [
                 {
                   API: {
-                    getAPI: '{{APIADDRESS}}/(id)',
-                    updateAPI: '{{APIADDRESS}}/(id)',
+                    getAPI: 'ZERO_API/(id)',
+                    updateAPI: 'ZERO_API/(id)',
                   },
                   layout: 'FormExclusive',
                   component: 'BaseForm',

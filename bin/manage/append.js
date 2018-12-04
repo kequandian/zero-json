@@ -26,13 +26,15 @@ module.exports = function (pageName, dirPath, API) {
     `${outFilePath}/${childPageNameUpperCase}.js`,
   )
     .then(() => {
-      templateReplace(outFilePath, 'ZERO_childName', childPageName);
       templateReplace(outFilePath, 'ZERO_childNameUpperCase', childPageNameUpperCase);
+      templateReplace(outFilePath, 'ZERO_childName', childPageName);
+      templateReplace(outFilePath, 'ZERO_parentName', parentPageName);
+      templateReplace(outFilePath, 'ZERO_API', API);
       spinner.succeed(`child 文件已添加`);
 
       return fsExtra.copy(
         `${__dirname}/template/childConfig/index.js`,
-        `${outFilePath}/${childPageNameUpperCase}/index.js`,
+        `${outFilePath}/${childPageNameUpperCase}Config/index.js`,
       );
     })
     .then(async () => {
@@ -43,10 +45,10 @@ module.exports = function (pageName, dirPath, API) {
           return false;
         }
         spinner.info(`使用 API: ${API} 生成配置文件`);
-        return createFile(`${outFilePath}/${childPageName}/formConfig.js`, data.fields);
+        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`, data.fields);
       } else {
         spinner.info(`生成标准配置文件`);
-        return createFile(`${outFilePath}/${childPageName}/formConfig.js`);
+        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`);
       }
     });
 
