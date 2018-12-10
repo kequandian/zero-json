@@ -20,7 +20,12 @@ function list(path, filter = '') {
     const lsData = [];
     Object.keys(jsonData).forEach(API => {
       const APIItem = jsonData[API];
-      lsData.push(`${APIItem.method} ${API} ${APIItem.summary}`);
+      const methodList = ['get', 'post', 'put', 'delete'];
+      methodList.forEach(method => {
+        if (APIItem[method]) {
+          lsData.push(`${method} ${API} ${APIItem.summary}`);
+        }
+      });
     });
     fsExtra.outputFile(`${path}/../ls`, lsData.join('\n'))
     .then( () => {

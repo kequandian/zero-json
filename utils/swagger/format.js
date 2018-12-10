@@ -14,10 +14,13 @@ module.exports = function format() {
       Object.keys(APIItem).forEach(method => {
         const current = APIItem[method];
         rstData[API] = {
+          ...(rstData[API] || {}),
           API,
-          method,
-          summary: `${(current.tags || []).join('')} ${current.summary}`,
-          ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
+          summary: `${(rstData[API] && rstData[API].summary + '。') || ''}${(current.tags || []).join('')} ${current.summary}`,
+          [method]: {
+            fields: [],
+            ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
+          },
         };
       })
     });
@@ -41,13 +44,19 @@ function checkRef(current, jsonData) {
     // children ref
     return formatRef(current, jsonData);
   }
-  const ref = current.ref || current['$ref'];
-  if (!ref) {
-    console.log(`警告 API ${current.API} 的 ref 非法`);
-    return false;
-  }
-  current.fields = formatRef(ref, jsonData);
+  const methodList = ['get', 'post', 'put', 'delete'];
+  methodList.forEach(method => {
+    if (current[method]) {
+      const ref = current[method].ref || current[method]['$ref'];
+      if (!ref) {
+        console.log(`警告 API ${current.API} 的 ref 非法`);
+        return false;
+      }
+      current[method].fields = formatRef(ref, jsonData);
+    }
+  });
 }
+
 function formatRef(ref, jsonData) {
   const refArray = ref.replace('#/', '').split('/');
   let refObj = jsonData;

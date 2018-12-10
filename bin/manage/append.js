@@ -45,7 +45,7 @@ module.exports = function (pageName, dirPath, API) {
           return false;
         }
         spinner.info(`使用 API: ${API} 生成配置文件`);
-        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`, data.fields);
+        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`, getFields(data));
       } else {
         spinner.info(`生成标准配置文件`);
         return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`);
@@ -79,4 +79,7 @@ function createFile(filePath, fields) {
 
   const date = 'module.exports = ' + JSON.stringify(itemTemplate, null, 2);
   return fsExtra.outputFile(filePath, date);
+}
+function getFields(data) {
+  return data.post && data.post.fields || data.put && data.put.fields || [];
 }

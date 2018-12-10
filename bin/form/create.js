@@ -15,7 +15,7 @@ module.exports = function (name, filePath, API) {
       }
       createFile(name, filePath, {
         API,
-        fields: data.fields,
+        fields: data.post && data.post.fields || data.put && data.put.fields || [],
         spinner,
       });
     });
