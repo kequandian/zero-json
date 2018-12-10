@@ -14,12 +14,12 @@ module.exports = function format() {
       Object.keys(APIItem).forEach(method => {
         const current = APIItem[method];
         rstData[API] = {
-          ...(rstData[API] || {}),
           API,
-          summary: `${(rstData[API] && rstData[API].summary + '。') || ''}${(current.tags || []).join('')} ${current.summary}`,
           [method]: {
             fields: [],
-            ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
+            // ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
+            summary: `${(current.tags || []).join('')} ${current.summary}`,
+            parameters: current.parameters,
           },
         };
       })
@@ -47,12 +47,17 @@ function checkRef(current, jsonData) {
   const methodList = ['get', 'post', 'put', 'delete'];
   methodList.forEach(method => {
     if (current[method]) {
-      const ref = current[method].ref || current[method]['$ref'];
-      if (!ref) {
-        console.log(`警告 API ${current.API} 的 ref 非法`);
-        return false;
-      }
-      current[method].fields = formatRef(ref, jsonData);
+      current[method].parameters && current[method].parameters.forEach(item => {
+        if (item.schema) {
+          if (item.schema['$ref']) {
+            current[method].fields = formatRef(item.schema['$ref'], jsonData);
+          } else {
+            console.log(`非标准的 API：${current.API} 对象 parameters.schema 之下没有key: $ref`);
+          }
+        }else{
+          current[method].fields.push(item);
+        }
+      });
     }
   });
 }

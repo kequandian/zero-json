@@ -23,7 +23,7 @@ function list(path, filter = '') {
       const methodList = ['get', 'post', 'put', 'delete'];
       methodList.forEach(method => {
         if (APIItem[method]) {
-          lsData.push(`${method} ${API} ${APIItem.summary}`);
+          lsData.push(`${method} ${API} ${APIItem[method].summary}`);
         }
       });
     });
