@@ -13,15 +13,13 @@ module.exports = function format() {
       const APIItem = APIObject[API];
       Object.keys(APIItem).forEach(method => {
         const current = APIItem[method];
-        rstData[API] = {
-          API,
-          [method]: {
-            fields: [],
-            // ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
-            summary: `${(current.tags || []).join('')} ${current.summary}`,
-            parameters: current.parameters,
-          },
-        };
+        rstData[API].API = API;
+        rstData[API][method] = {
+          fields: [],
+          // ref: current['responses']['200'] && current['responses']['200']['schema']['$ref'],
+          summary: `${(current.tags || []).join('')} ${current.summary}`,
+          parameters: current.parameters,
+        }
       })
     });
     Object.keys(rstData).forEach(API => {
@@ -54,7 +52,7 @@ function checkRef(current, jsonData) {
           } else {
             console.log(`非标准的 API：${method} ${current.API} 对象 parameters.schema 之下没有key: $ref`);
           }
-        }else{
+        } else {
           current[method].fields.push(item);
         }
       });
