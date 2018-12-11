@@ -13,6 +13,7 @@ module.exports = function format() {
       const APIItem = APIObject[API];
       Object.keys(APIItem).forEach(method => {
         const current = APIItem[method];
+        rstData[API] = rstData[API] || {};
         rstData[API].API = API;
         rstData[API][method] = {
           fields: [],
