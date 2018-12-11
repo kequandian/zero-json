@@ -52,7 +52,7 @@ function checkRef(current, jsonData) {
           if (item.schema['$ref']) {
             current[method].fields = formatRef(item.schema['$ref'], jsonData);
           } else {
-            console.log(`非标准的 API：${current.API} 对象 parameters.schema 之下没有key: $ref`);
+            console.log(`非标准的 API：${method} ${current.API} 对象 parameters.schema 之下没有key: $ref`);
           }
         }else{
           current[method].fields.push(item);

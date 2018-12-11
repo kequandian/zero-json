@@ -34,7 +34,7 @@ module.exports = function (pageName, dirPath, API) {
 
       return fsExtra.copy(
         `${__dirname}/template/childConfig/index.js`,
-        `${outFilePath}/${childPageNameUpperCase}Config/index.js`,
+        `${outFilePath}/config/${childPageName}/index.js`,
       );
     })
     .then(async () => {
@@ -45,10 +45,10 @@ module.exports = function (pageName, dirPath, API) {
           return false;
         }
         spinner.info(`使用 API: ${API} 生成配置文件`);
-        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`, getFields(data));
+        return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`, getFields(data));
       } else {
         spinner.info(`生成标准配置文件`);
-        return createFile(`${outFilePath}/${childPageNameUpperCase}Config/formConfig.js`);
+        return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`);
       }
     });
 

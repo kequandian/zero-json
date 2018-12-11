@@ -34,6 +34,7 @@ module.exports = function (pageName, dirPath, API) {
   } else {
     spinner.info(`父级路由已存在`);
     appendPage({
+      formatPageName,
       pageName,
       dirPath,
       API,
@@ -42,11 +43,11 @@ module.exports = function (pageName, dirPath, API) {
 }
 
 function addRouter(router, options) {
-  const { spinner, pageName } = options;
+  const { spinner, formatPageName } = options;
   return router.add({
-    name: pageName,
+    name: formatPageName,
     icon: `copy`,
-    path: `/${pageName}`,
+    path: `/${formatPageName}`,
     routes: [],
   }).then(() => {
     spinner.succeed(`路由信息已添加`);

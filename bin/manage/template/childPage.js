@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { ZEle } from 'zero-element';
-import config from './ZERO_childNameUpperCaseConfig';
+import config from './config/ZERO_childName';
 
 @connect(({ ZERO_parentName, loading }) => ({
   modelStatus: ZERO_parentName,
