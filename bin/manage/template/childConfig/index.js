@@ -18,12 +18,14 @@ export default {
             options: {
               items: [
                 {
-                  API: {
-                    createAPI: 'ZERO_API',
-                  },
                   layout: 'FormDefault',
                   component: 'BaseForm',
-                  config: formConfig,
+                  config: {
+                    API: {
+                      createAPI: 'ZERO_API',
+                    },
+                    fields: formConfig.fields,
+                  },
                 }
               ],
             },
@@ -32,13 +34,13 @@ export default {
       },
     },
     {
-      API: {
-        listAPI: 'ZERO_API',
-        deleteAPI: 'ZERO_API/(id)',
-      },
       span: 24,
       component: 'BaseList',
       config: {
+        API: {
+          listAPI: 'ZERO_API',
+          deleteAPI: 'ZERO_API/(id)',
+        },
         fields: [
           { field: 'id', label: 'ID' },
           { field: 'name', label: '名称' },
@@ -51,13 +53,15 @@ export default {
               modalTitle: '编辑部门',
               items: [
                 {
-                  API: {
-                    getAPI: 'ZERO_API/(id)',
-                    updateAPI: 'ZERO_API/(id)',
-                  },
                   layout: 'FormExclusive',
                   component: 'BaseForm',
-                  config: formConfig,
+                  config: {
+                    API: {
+                      getAPI: 'ZERO_API/(id)',
+                      updateAPI: 'ZERO_API/(id)',
+                    },
+                    fields: formConfig.fields,
+                  },
                 }
               ],
             },
