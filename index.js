@@ -13,6 +13,8 @@ const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 const { create: formCreate } = require('./bin/form');
 const { init: manageInit, add: manageAdd } = require('./bin/manage');
 
+const check = require('./bin/check');
+
 if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
   console.log('请在 Git Shell 的 CLI 环境下运行');
   return false;
@@ -116,10 +118,16 @@ program
         manageAdd(pageName, program.dirPath, API);
       },
       'undefined': () => {
-        console.log('无效的 action。可选 ls | format');
+        console.log('无效的 action。可选 init | add');
       },
     };
     (actionMap[action] || actionMap[undefined])(...restArg);
+  })
+program
+  .command('check')
+  .description('检查项目的 配置文件的字段 与 swagger 的差异')
+  .action(function () {
+    check(program.dirPath);
   })
 
 program.parse(process.argv)
