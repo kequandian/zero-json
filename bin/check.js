@@ -11,7 +11,11 @@ module.exports = async function (dirPath) {
   configList.forEach(file => {
     const json = parseConfig(file);
     const rst = getAllFieldsConfig(json);
-    console.log(rst);
+    rst.forEach((item, i) => {
+      // console.log(`***** ${i + 1} ******`);
+      console.log(item);
+    })
+    // console.log('-----------');
   });
 }
 
@@ -21,19 +25,27 @@ function getAllFieldsConfig(json) {
 
   while (stack.length) {
     const item = stack.pop();
-    if (item.items) {
-      stack.push(items);
-    }
+
+    Object.values(item).forEach(value => {
+      if (typeof value === 'object') {
+        Object.values(value).forEach(v => {
+          if (Array.isArray(v)) {
+            stack.push(...v);
+          }
+        });
+      }
+
+    });
     if (item.config) {
-      if(item.config.fields) {
+      if (item.config.fields) {
         rst.push(item.config); // 把 fields 连同 config 的其它项一起保存
         stack.push(...item.config.fields);
       }
-    }
-    if(item.options && item.options.items) { // 处理在 options 中嵌套 items 的情况
-      stack.push(...item.options.items);
+      if (item.config.actions) {
+        stack.push(...item.config.actions);
+      }
     }
   }
   return rst;
-  
+
 }
