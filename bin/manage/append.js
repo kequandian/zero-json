@@ -29,7 +29,6 @@ module.exports = function (pageName, dirPath, API) {
       templateReplace(outFilePath, 'ZERO_childNameUpperCase', childPageNameUpperCase);
       templateReplace(outFilePath, 'ZERO_childName', childPageName);
       templateReplace(outFilePath, 'ZERO_parentName', parentPageName);
-      templateReplace(outFilePath, 'ZERO_API', API);
       spinner.succeed(`child 文件已添加`);
 
       return fsExtra.copy(
@@ -39,6 +38,7 @@ module.exports = function (pageName, dirPath, API) {
     })
     .then(async () => {
       if (API) {
+        templateReplace(outFilePath, 'ZERO_API', API);
         const data = await swaggerRead(API);
         if (data instanceof Error) {
           spinner.fail(data.message);

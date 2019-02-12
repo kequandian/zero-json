@@ -6,7 +6,7 @@ const fs = require('fs-extra');
  * @returns Promise
  */
 module.exports = function format() {
-  return fs.readJSON(`${__dirname}/../../swagger/index.json`).then((jsonData) => {
+  return fs.readJSON(`${__dirname}/../../swagger/swagger.json`).then((jsonData) => {
     const rstData = {};
     const APIObject = jsonData.paths;
     Object.keys(APIObject).forEach(API => {
