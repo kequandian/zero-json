@@ -28,13 +28,14 @@ module.exports = function (name, filePath, API) {
 function createFile(name, filePath, { API, fields, spinner }) {
   return createBin(name, filePath).then((absolutePath) => {
     const itemTemplate = {
-      API: {
-        listAPI: API,
-        deleteAPI: `${API}/(id)`,
-      },
       span: 24,
+      layout: 'DefaultForm',
       component: 'BaseList',
       config: {
+        API: {
+          listAPI: API,
+          deleteAPI: `${API}/(id)`,
+        },
         fields: [
           { field: 'id', label: 'ID' },
           { field: 'name', label: '名称' },

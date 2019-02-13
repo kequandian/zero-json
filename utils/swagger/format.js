@@ -1,12 +1,14 @@
 
 const fs = require('fs-extra');
+const path = require('path');
 
 /**
  * 把 swagger 里面天书一样的格式，格式化为 人类看得懂的格式
  * @returns Promise
  */
-module.exports = function format() {
-  return fs.readJSON(`${__dirname}/../../swagger/swagger.json`).then((jsonData) => {
+module.exports = function format(pwdPath) {
+  // `${__dirname}/../../swagger/swagger.json`
+  return fs.readJSON(`${path.normalize(pwdPath)}/swagger/swagger.json`).then((jsonData) => {
     const rstData = {};
     const APIObject = jsonData.paths;
     Object.keys(APIObject).forEach(API => {
@@ -27,7 +29,7 @@ module.exports = function format() {
       const current = rstData[API];
       checkRef(current, jsonData);
     });
-    return fs.outputFile(`${__dirname}/../../swagger/format.json`, JSON.stringify(rstData, null, 2));
+    return fs.outputFile(`${path.normalize(pwdPath)}/swagger/format.json`, JSON.stringify(rstData, null, 2));
   });
 }
 

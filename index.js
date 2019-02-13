@@ -78,10 +78,10 @@ program
     const [action, ...restArg] = arguments;
     const actionMap = {
       'ls': (filter) => {
-        swaggerLs(filter);
+        swaggerLs(filter, program.dirPath);
       },
       'format': () => {
-        swaggerFormat();
+        swaggerFormat(program.dirPath);
       },
       'undefined': () => {
         console.log('无效的 action。可选 ls | format');
