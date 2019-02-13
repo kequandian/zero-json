@@ -6,7 +6,7 @@ export default {
   items: [
     {
       span: 24,
-      layout: 'SearchDefault',
+      layout: 'DefaultSearch',
       component: 'BaseSearch',
       config: {
         fields: [
@@ -18,7 +18,7 @@ export default {
             options: {
               items: [
                 {
-                  layout: 'FormDefault',
+                  layout: 'DefaultForm',
                   component: 'BaseForm',
                   config: {
                     API: {
@@ -35,6 +35,7 @@ export default {
     },
     {
       span: 24,
+      layout: 'DefaultList',
       component: 'BaseList',
       config: {
         API: {
