@@ -9,37 +9,41 @@ const append = require('./append');
 const confirm = require('../../utils/confirm');
 
 module.exports = function (pageName, dirPath, API) {
-  dirPath = path.resolve(cwd, dirPath);
+  return new Promise((res, rej) => {
+    dirPath = path.resolve(cwd, dirPath);
 
-  const formatPageName = pageName.replace(/\/\w+$/, ''); // 确保是父级名称
-  const headerUpperCase = formatPageName.replace(/^\S/, s => s.toUpperCase());
-  const modelFilePath = path.normalize(`${dirPath}/src/pages/${headerUpperCase}/models/${headerUpperCase}.js`);
-  const routerFilePath = path.normalize(`${dirPath}/config/router.config.js`);
+    const formatPageName = pageName.replace(/\/\w+$/, ''); // 确保是父级名称
+    const headerUpperCase = formatPageName.replace(/^\S/, s => s.toUpperCase());
+    const modelFilePath = path.normalize(`${dirPath}/src/pages/${headerUpperCase}/models/${headerUpperCase}.js`);
+    const routerFilePath = path.normalize(`${dirPath}/config/router.config.js`);
 
-  const spinner = ora(`新增后台管理页面： ${pageName}`).start();
-  const router = routerUtils(routerFilePath);
+    const spinner = ora(`新增后台管理页面： ${pageName}`).start();
+    const router = routerUtils(routerFilePath);
 
-  if (!router.check(formatPageName)) {
-    spinner.info(`添加路由信息`);
-    addRouter(router, {
-      spinner,
-      formatPageName,
-      modelFilePath,
-      pageName,
-      dirPath,
-      API,
-    })
-      .then(addModelFile)
-      .then(appendPage);
-  } else {
-    spinner.info(`父级路由已存在`);
-    appendPage({
-      formatPageName,
-      pageName,
-      dirPath,
-      API,
-    });
-  }
+    if (!router.check(formatPageName)) {
+      spinner.info(`添加路由信息`);
+      addRouter(router, {
+        spinner,
+        formatPageName,
+        modelFilePath,
+        pageName,
+        dirPath,
+        API,
+      })
+        .then(addModelFile)
+        .then(appendPage)
+        .then(() => res());
+    } else {
+      spinner.info(`父级路由已存在`);
+      appendPage({
+        formatPageName,
+        pageName,
+        dirPath,
+        API,
+      })
+        .then(() => res());
+    }
+  });
 }
 
 function addRouter(router, options) {
@@ -68,7 +72,7 @@ function addModelFile(options) {
 
 function appendPage({ pageName, dirPath, API }) {
   if (pageName.indexOf('/') > -1) {
-    append(pageName, dirPath, API);
-    return false;
+    return append(pageName, dirPath, API);
   }
+  return new Promise(res => res());
 }

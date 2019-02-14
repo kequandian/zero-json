@@ -11,7 +11,7 @@ const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 const { create: formCreate } = require('./bin/form');
-const { init: manageInit, add: manageAdd } = require('./bin/manage');
+const { init: manageInit, add: manageAdd, test: manageTest } = require('./bin/manage');
 
 const check = require('./bin/check');
 
@@ -106,6 +106,7 @@ program
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
     '  -> manage add <pageName> 添加页面',
+    '  -> manage test 在 ./web 下初始化项目并添加测试用页面',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -117,8 +118,12 @@ program
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         manageAdd(pageName, program.dirPath, API);
       },
+      'test': () => {
+        const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        manageTest(API);
+      },
       'undefined': () => {
-        console.log('无效的 action。可选 init | add');
+        console.log('无效的 action。可选 init | add | test');
       },
     };
     (actionMap[action] || actionMap[undefined])(...restArg);
