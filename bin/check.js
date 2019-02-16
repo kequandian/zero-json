@@ -10,12 +10,14 @@ module.exports = async function (dirPath) {
   const configList = fileList.filter(filePath => filePath.indexOf('pages') > -1);
   configList.forEach(file => {
     const json = parseConfig(file);
-    const rst = getAllFieldsConfig(json);
-    rst.forEach((item, i) => {
-      // console.log(`***** ${i + 1} ******`);
-      console.log(item);
-    })
-    // console.log('-----------');
+    if (json) {
+      const rst = getAllFieldsConfig(json);
+      rst.forEach((item, i) => {
+        // console.log(`***** ${i + 1} ******`);
+        console.log(item);
+      })
+      // console.log('-----------');
+    }
   });
 }
 

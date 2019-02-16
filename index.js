@@ -15,10 +15,10 @@ const { init: manageInit, add: manageAdd, test: manageTest } = require('./bin/ma
 
 const check = require('./bin/check');
 
-if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
-  console.log('请在 Git Shell 的 CLI 环境下运行');
-  return false;
-}
+// if (!(shell.env.EXEPATH && shell.env.EXEPATH.indexOf('Git'))) {
+//   console.log('请在 Git Shell 的 CLI 环境下运行');
+//   return false;
+// }
 
 program
   .version(require('./package').version)
