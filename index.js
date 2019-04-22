@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const shell = require('shelljs');
+const path = require('path');
 
 const cloneBin = require('./bin/clone');
 const lsBin = require('./bin/ls');
@@ -11,7 +12,7 @@ const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 const { create: formCreate } = require('./bin/form');
-const { init: manageInit, add: manageAdd, test: manageTest } = require('./bin/manage');
+const { init: manageInit, add: manageAdd, remove: manageRemove, test: manageTest } = require('./bin/manage');
 
 const check = require('./bin/check');
 
@@ -28,12 +29,14 @@ program
   .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
   .option('-p, --dirPath [dirPath]', '命令所操作的目录', './')
   .option('--API [API]', '指定操作的 API', '')
+  .option('--swagger [swagger]', '指定操作的 swagger 文件目录',
+    path.resolve(`${__dirname}/swagger/swagger.json`))
 
 program
   .command('clone')
   .description('下载 或 更新 模板')
   .action(function () {
-    cloneBin('kequandian/zero-layout', `${__dirname}/template/layout`);
+    cloneBin('kequandian/zero-layout', `${ __dirname } / template / layout`);
   })
 program
   .command('ls')
@@ -117,6 +120,9 @@ program
       'add': (pageName) => {
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         manageAdd(pageName, program.dirPath, API);
+      },
+      'remove': (pageName) => {
+        manageRemove(pageName, program.dirPath);
       },
       'test': () => {
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');

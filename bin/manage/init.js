@@ -1,13 +1,17 @@
 
 const ora = require('ora');
 const clone = require('../clone');
-const fs = require('fs');
+const fs = require('fs-extra');
 const cwd = process.cwd();
 const path = require('path');
 const templateReplace = require('../../utils/templateReplace');
 const confirm = require('../../utils/confirm');
 
 module.exports = function (projectName, dirPath, direct) {
+  if(!projectName) {
+    console.log(`无效的项目名：${projectName}`);
+    return false;
+  }
   return new Promise((res, rej) => {
     const spinner = ora(`初始化后台管理项目： ${projectName}`).start();
     dirPath = path.resolve(cwd, `${dirPath}/${projectName}`);

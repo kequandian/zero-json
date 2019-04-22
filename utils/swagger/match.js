@@ -1,4 +1,4 @@
-
+const program = require('commander');
 const fsExtra = require('fs-extra');
 const path = require('path');
 
@@ -21,8 +21,9 @@ module.exports = function match(item, resolvePath) {
   // 不然正常的流程不会调用这个函数
 
   const rst = [];
-  const swaggerPath = path.normalize(`${resolvePath}/swagger/format.json`);
-  const jsonData = fsExtra.readJsonSync(swaggerPath);
+  const swaggerFilePath = path.resolve(program.swagger);
+  const swaggerFormatPath = `${path.dirname(swaggerFilePath)}/format.json`;
+  const jsonData = fsExtra.readJsonSync(swaggerFormatPath);
 
   Object.keys(item.API).forEach(key => {
     const API = item.API[key].replace(/\(\S+\)/, '{id}')

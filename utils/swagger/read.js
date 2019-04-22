@@ -1,34 +1,36 @@
 
-const fs = require('fs');
+const program = require('commander');
+const fs = require('fs-extra');
 const fsExtra = require('fs-extra');
+const path = require('path');
 const format = require('./format');
 const shell = require('shelljs');
 
 module.exports = function read(API) {
+  const swaggerFilePath = path.resolve(program.swagger);
   return new Promise((res, rej) => {
     if (API === undefined) {
       rej('请传入需要读取的 API');
     }
-    const path = `${__dirname}/../../swagger/format.json`;
-    if (!fs.existsSync(path)) {
+    if (!fs.existsSync(swaggerFilePath)) {
       format().then(() => {
-        readAPI(path, API).then(res).catch(rej);
+        readAPI(swaggerFilePath, API).then(res).catch(rej);
       })
     } else {
-      readAPI(path, API).then(res).catch(rej);
+      readAPI(swaggerFilePath, API).then(res).catch(rej);
     }
-  }).catch( (err) => {
+  }).catch((err) => {
     return err;
   });
 
 }
 
-function readAPI(path, API) {
-  return fsExtra.readJSON(path).then((jsonData) => {
+function readAPI(swaggerFilePath, API) {
+  return fsExtra.readJSON(swaggerFilePath).then((jsonData) => {
     const match = jsonData[API];
-    if(match){
+    if (match) {
       return match;
-    }else{
+    } else {
       throw new Error(`未能在 format.json 里面找到 ${API} 相关的数据`);
     }
   });

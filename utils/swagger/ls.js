@@ -1,19 +1,19 @@
-
-const fs = require('fs');
+const program = require('commander');
+const fs = require('fs-extra');
 const path = require('path');
 const fsExtra = require('fs-extra');
 const format = require('./format');
 const shell = require('shelljs');
 
 module.exports = function ls(filter, pwdPath) {
-  // const swaggerPath = `${__dirname}/../../swagger/format.json`;
-  const swaggerPath = path.normalize(`${pwdPath}/swagger/format.json`);
-  if (!fs.existsSync(swaggerPath)) {
+  const swaggerFilePath = path.resolve(program.swagger);
+  const swaggerFormatPath = `${path.dirname(swaggerFilePath)}/format.json`;
+  if (!fs.existsSync(swaggerFormatPath)) {
     format(pwdPath).then(() => {
-      list(swaggerPath, filter);
+      list(swaggerFormatPath, filter);
     })
   } else {
-    list(swaggerPath, filter);
+    list(swaggerFormatPath, filter);
   }
 }
 

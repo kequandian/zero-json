@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 const ora = require('ora');
-const fs = require('fs');
+const fs = require('fs-extra');
 const clone = require('./clone');
 
 module.exports = function () {

@@ -1,6 +1,5 @@
 
-const fs = require('fs');
-const fsExtra = require('fs-extra');
+const fs = require('fs-extra');
 
 /**
  * 
@@ -38,7 +37,7 @@ const router = function (routerFilePath) {
         return false;
       });
 
-      return fsExtra.outputFile(
+      return fs.outputFile(
         routerFilePath,
         'module.exports = ' + JSON.stringify(routerEntity, null, 2)
       );
@@ -57,7 +56,29 @@ const router = function (routerFilePath) {
         return false;
       })
 
-      return fsExtra.outputFile(
+      return fs.outputFile(
+        routerFilePath,
+        'module.exports = ' + JSON.stringify(routerEntity, null, 2)
+      );
+    },
+    remove: function (parentName, pageName) {
+      routerEntity.some(route => {
+        // 找到菜单的路由项
+        if (route.path === '/') {
+          route.routes.forEach(item => {
+            if (item.name === parentName) {
+              const index = item.routes.findIndex(route => {
+                return route.path === pageName;
+              });
+              item.routes.splice(index, 1);
+            }
+          })
+          return true;
+        }
+        return false;
+      })
+
+      return fs.outputFile(
         routerFilePath,
         'module.exports = ' + JSON.stringify(routerEntity, null, 2)
       );

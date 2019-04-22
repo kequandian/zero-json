@@ -1,4 +1,4 @@
-
+const program = require('commander');
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -7,8 +7,8 @@ const path = require('path');
  * @returns Promise
  */
 module.exports = function format(pwdPath) {
-  // `${__dirname}/../../swagger/swagger.json`
-  return fs.readJSON(`${path.normalize(pwdPath)}/swagger/swagger.json`).then((jsonData) => {
+  const swaggerFilePath = path.resolve(program.swagger);
+  return fs.readJSON(swaggerFilePath).then((jsonData) => {
     const rstData = {};
     const APIObject = jsonData.paths;
     Object.keys(APIObject).forEach(API => {
@@ -29,7 +29,7 @@ module.exports = function format(pwdPath) {
       const current = rstData[API];
       checkRef(current, jsonData);
     });
-    return fs.outputFile(`${path.normalize(pwdPath)}/swagger/format.json`, JSON.stringify(rstData, null, 2));
+    return fs.outputFile(`${path.dirname(swaggerFilePath)}/format.json`, JSON.stringify(rstData, null, 2));
   });
 }
 
