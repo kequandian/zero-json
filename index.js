@@ -30,7 +30,7 @@ program
   .option('-p, --dirPath [dirPath]', '命令所操作的目录', './')
   .option('--API [API]', '指定操作的 API', '')
   .option('--swagger [swagger]', '指定操作的 swagger 文件目录',
-    path.resolve(`${__dirname}/swagger/swagger.json`))
+    path.resolve(`./swagger/swagger.json`))
 
 program
   .command('clone')
