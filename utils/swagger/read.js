@@ -8,16 +8,17 @@ const shell = require('shelljs');
 
 module.exports = function read(API) {
   const swaggerFilePath = path.resolve(program.swagger);
+  const swaggerFormatPath = `${path.dirname(swaggerFilePath)}/format.json`;
   return new Promise((res, rej) => {
     if (API === undefined) {
       rej('请传入需要读取的 API');
     }
-    if (!fs.existsSync(swaggerFilePath)) {
+    if (!fs.existsSync(swaggerFormatPath)) {
       format().then(() => {
-        readAPI(swaggerFilePath, API).then(res).catch(rej);
+        readAPI(swaggerFormatPath, API).then(res).catch(rej);
       })
     } else {
-      readAPI(swaggerFilePath, API).then(res).catch(rej);
+      readAPI(swaggerFormatPath, API).then(res).catch(rej);
     }
   }).catch((err) => {
     return err;
@@ -25,8 +26,8 @@ module.exports = function read(API) {
 
 }
 
-function readAPI(swaggerFilePath, API) {
-  return fsExtra.readJSON(swaggerFilePath).then((jsonData) => {
+function readAPI(swaggerFormatPath, API) {
+  return fsExtra.readJSON(swaggerFormatPath).then((jsonData) => {
     const match = jsonData[API];
     if (match) {
       return match;

@@ -21,6 +21,7 @@ export default {
                   layout: 'DefaultForm',
                   component: 'BaseForm',
                   config: {
+                    ACTIONTYPE: 'create',
                     API: {
                       createAPI: 'ZERO_API',
                     },
@@ -54,7 +55,7 @@ export default {
               modalTitle: '编辑部门',
               items: [
                 {
-                  layout: 'FormExclusive',
+                  layout: 'DefaultForm',
                   component: 'BaseForm',
                   config: {
                     API: {
