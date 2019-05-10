@@ -118,8 +118,9 @@ program
         manageInit(projectName, program.dirPath, program.direct);
       },
       'add': (pageName) => {
+        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
-        manageAdd(pageName, program.dirPath, API);
+        manageAdd(pageNameF, program.dirPath, API);
       },
       'remove': (pageName) => {
         manageRemove(pageName, program.dirPath);
