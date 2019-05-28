@@ -43,14 +43,13 @@ module.exports = function (pageName, dirPath, API) {
           const data = await swaggerRead(API);
           if (data instanceof Error) {
             spinner.fail(data.message);
-            return false;
+          } else {
+            spinner.info(`使用 API: ${API} 生成配置文件`);
+            return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`, getFields(data));
           }
-          spinner.info(`使用 API: ${API} 生成配置文件`);
-          return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`, getFields(data));
-        } else {
-          spinner.info(`生成标准配置文件`);
-          return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`);
         }
+        spinner.info(`生成标准配置文件`);
+        return createFile(`${outFilePath}/config/${childPageName}/formConfig.js`);
       });
 
     spinner.info(`添加路由信息`);

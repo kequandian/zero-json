@@ -10,6 +10,11 @@ module.exports = function read(API) {
   const swaggerFilePath = path.resolve(program.swagger);
   const swaggerFormatPath = `${path.dirname(swaggerFilePath)}/format.json`;
   return new Promise((res, rej) => {
+    if(!fs.existsSync(swaggerFilePath)) {
+      rej(new Error('未能找到 swagger.json 文件'));
+      return false;
+    }
+    
     if (API === undefined) {
       rej('请传入需要读取的 API');
     }

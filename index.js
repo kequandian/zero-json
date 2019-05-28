@@ -109,6 +109,7 @@ program
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
     '  -> manage add <pageName> 添加页面',
+    '  -> manage remove <pageName> 移除页面',
     '  -> manage test 在 ./web 下初始化项目并添加测试用页面',
   ].join('\n'))
   .action(function () {
