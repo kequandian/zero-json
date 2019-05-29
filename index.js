@@ -12,7 +12,7 @@ const { comAdd, comUpdate, comDelete } = require('./bin/com');
 
 const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 const { create: formCreate } = require('./bin/form');
-const { init: manageInit, add: manageAdd, remove: manageRemove, test: manageTest } = require('./bin/manage');
+const { init: manageInit, add: manageAdd, remove: manageRemove, test: manageTest, endpoint: manageEndpoint } = require('./bin/manage');
 
 const check = require('./bin/check');
 
@@ -36,7 +36,7 @@ program
   .command('clone')
   .description('下载 或 更新 模板')
   .action(function () {
-    cloneBin('kequandian/zero-layout', `${ __dirname } / template / layout`);
+    cloneBin('kequandian/zero-layout', `${__dirname} / template / layout`);
   })
 program
   .command('ls')
@@ -110,6 +110,7 @@ program
     '  -> manage init <projectName> 初始化一个后台管理项目',
     '  -> manage add <pageName> 添加页面',
     '  -> manage remove <pageName> 移除页面',
+    '  -> manage endpoint <endpoint> 移除页面',
     '  -> manage test 在 ./web 下初始化项目并添加测试用页面',
   ].join('\n'))
   .action(function () {
@@ -125,6 +126,10 @@ program
       },
       'remove': (pageName) => {
         manageRemove(pageName, program.dirPath);
+      },
+      'endpoint': async (endpoint) => {
+        await manageEndpoint(endpoint);
+        console.log('endpoint 已配置');
       },
       'test': () => {
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
