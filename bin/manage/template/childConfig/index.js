@@ -1,12 +1,11 @@
 import formConfig from './formConfig';
 
 export default {
-  layout: 'Grid',
+  layout: 'Empty',
   title: '管理列表',
   items: [
     {
-      span: 24,
-      layout: 'DefaultSearch',
+      layout: 'Empty',
       component: 'BaseSearch',
       config: {
         fields: [
@@ -21,7 +20,6 @@ export default {
                   layout: 'DefaultForm',
                   component: 'BaseForm',
                   config: {
-                    ACTIONTYPE: 'create',
                     API: {
                       createAPI: 'ZERO_API',
                     },
@@ -35,8 +33,7 @@ export default {
       },
     },
     {
-      span: 24,
-      layout: 'DefaultList',
+      layout: 'Empty',
       component: 'BaseList',
       config: {
         API: {
@@ -55,7 +52,7 @@ export default {
               modalTitle: '编辑部门',
               items: [
                 {
-                  layout: 'DefaultForm',
+                  layout: 'Empty',
                   component: 'BaseForm',
                   config: {
                     API: {

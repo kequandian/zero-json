@@ -10,8 +10,6 @@ module.exports = function (pageName, dirPath, API) {
     dirPath = path.resolve(cwd, dirPath);
 
     const formatPageName = pageName.replace(/\/\w+$/, ''); // 确保是父级名称
-    const headerUpperCase = formatPageName.replace(/^\S/, s => s.toUpperCase());
-    const modelFilePath = path.normalize(`${dirPath}/src/pages/${headerUpperCase}/models/${headerUpperCase}.js`);
     const routerFilePath = path.normalize(`${dirPath}/config/router.config.js`);
 
     const spinner = ora(`移除后台管理页面： ${pageName}`).start();
@@ -22,7 +20,6 @@ module.exports = function (pageName, dirPath, API) {
       delRouter(router, {
         spinner,
         formatPageName,
-        modelFilePath,
         pageName,
         dirPath,
         API,
