@@ -4,7 +4,6 @@ const clone = require('../clone');
 const fs = require('fs-extra');
 const cwd = process.cwd();
 const path = require('path');
-const templateReplace = require('../../utils/templateReplace');
 const confirm = require('../../utils/confirm');
 
 module.exports = function (projectName, dirPath, direct) {
@@ -18,16 +17,14 @@ module.exports = function (projectName, dirPath, direct) {
     confirm(
       fs.existsSync(dirPath),
       function () {
-        clone('kequandian/template-management', dirPath)
+        clone('kequandian/template-antd-management', dirPath)
           .then((path) => {
             if (path) {
-              spinner.info('替换模板关键字');
-              templateReplace(path, 'ZERO_projectName', projectName);
 
               spinner.succeed(`后台项目 ${projectName} 初始化成功`);
               res();
             }
-            // process.exit();
+            process.exit();
           }).catch((err) => rej(err));
       },
       {

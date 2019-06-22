@@ -1,40 +1,34 @@
 
 const ora = require('ora');
-const fsExtra = require('fs-extra');
-const cwd = process.cwd();
+const fs = require('fs-extra');
 const path = require('path');
-const routerUtils = require('../../utils/router');
+const confirm = require('../../utils/confirm');
 
-module.exports = function (pageName, dirPath, API) {
-  return new Promise((res, rej) => {
-    dirPath = path.resolve(cwd, dirPath);
+module.exports = function (pageName, dirPath, direct) {
+  const spinner = ora(`移除后台管理页面： ${pageName}`).start();
+  const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
+  
+  const pagesPath = path.join(dirPath, '/pages', `${pageName}.js`);
+  const srcPath = path.join(dirPath, '/src', 'pages', fileName);
 
-    const formatPageName = pageName.replace(/\/\w+$/, ''); // 确保是父级名称
-    const routerFilePath = path.normalize(`${dirPath}/config/router.config.js`);
+  spinner.info(`删除文件：${pagesPath}`);
+  spinner.info(`删除目录：${srcPath}`);
 
-    const spinner = ora(`移除后台管理页面： ${pageName}`).start();
-    const router = routerUtils(routerFilePath);
-
-    if (router.check(formatPageName)) {
-      spinner.info(`移除子路由信息`);
-      delRouter(router, {
-        spinner,
-        formatPageName,
-        pageName,
-        dirPath,
-        API,
+  confirm(
+    fs.existsSync(pagesPath) || fs.existsSync(srcPath),
+    function () {
+      const rst = Promise.all([
+        fs.remove(pagesPath),
+        fs.remove(srcPath),
+      ]);
+      rst.then(_=> {
+        spinner.succeed(`成功`);
+        process.exit();
       })
-        .then(() => res());
-    } else {
-      spinner.info(`父级路由 ${formatPageName} 不存在`);
+    },
+    {
+      message: '确定要删除以上文件及目录？',
+      direct: direct,
     }
-  });
-}
-
-function delRouter(router, options) {
-  const { spinner, formatPageName, pageName } = options;
-  return router.remove(formatPageName, pageName).then(() => {
-    spinner.succeed(`子路由信息已移除`);
-    return new Promise(res => res(options));
-  });
+  );
 }
