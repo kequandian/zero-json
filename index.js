@@ -12,7 +12,7 @@ const {
 
 program
   .version(require('./package').version)
-  .description('修改 json 文件，完成模板编辑')
+  .description('初始化项目、页面管理')
   .option('-f, --filePath [filePath]', '命令所操作的文件')
   .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
   .option('-p, --dirPath [dirPath]', '命令所操作的目录', process.cwd())

@@ -6,17 +6,21 @@ module.exports = {
   generateConfig,
 };
 
-function generatePage(filePath, name, parentsUpper = '') {
+function generatePage({ filePath, name, parentsUpper = '', isUmi = false }) {
+  const map = {
+    'true': '@/config',
+    'false': '@/src/pages',
+  };
   return fs.writeFile(filePath,
     `import React from 'react';
-import ${name} from '@/src/pages/${parentsUpper}${name}';
+import ${name} from '${map[isUmi]}/${parentsUpper}${name}';
 
 export default (props) => <${name} />
 `
   )
 }
 
-function generateIndex(filePath, name, namespace = name) {
+function generateIndex({ filePath, name, namespace = name }) {
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';
@@ -27,7 +31,7 @@ export default () => <ZEle namespace="${namespace}" config={config} />
   )
 }
 
-function generateConfig(filePath) {
+function generateConfig({ filePath }) {
   return fs.writeFile(filePath,
     `module.exports = {
   layout: 'Content',

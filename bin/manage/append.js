@@ -11,22 +11,49 @@ const {
 } = require('../../utils/generateFile');
 
 module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
+  const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
   const [parents, pageName] = pathAndPageName.split('/');
   const parentsUpper = parents.replace(/^\S/, (s) => s.toUpperCase());
   const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
 
-  const pagesPath = path.join(dirPath, '/pages', parents);
-  const srcPath = path.join(dirPath, '/src', 'pages', parentsUpper);
+  let pagesPath = '';
+  let srcPath = '';
+
+  const output = [];
+
+  if (isUmi) {
+    pagesPath = path.join(dirPath, '/src', '/pages', parents);
+    srcPath = path.join(dirPath, '/src', 'config', parentsUpper);
+
+  } else {
+    pagesPath = path.join(dirPath, '/pages', parents);
+    srcPath = path.join(dirPath, '/src', 'pages', parentsUpper);
+
+  }
+  output.push(path.join(pagesPath, `${pageName}.js`));
+  output.push(path.join(srcPath, `${fileName}.js`));
+  output.push(path.join(srcPath, 'config', `${pageName}.js`));
   fs.ensureDir(pagesPath);
   fs.ensureDir(path.join(srcPath, 'config'));
 
   confirm(
-    fs.existsSync(path.join(pagesPath, `${pageName}.js`)),
+    fs.existsSync(output[0]),
     function () {
       const rst = Promise.all([
-        generatePage(path.join(pagesPath, `${pageName}.js`), fileName, `${parentsUpper}/`),
-        generateIndex(path.join(srcPath, `${fileName}.js`), pageName, parents),
-        generateConfig(path.join(srcPath, 'config', `${pageName}.js`)),
+        generatePage({
+          filePath: output[0],
+          name: fileName,
+          parentsUpper: `${parentsUpper}/`,
+          isUmi,
+        }),
+        generateIndex({
+          filePath: output[1],
+          name: pageName,
+          namespace: parents,
+        }),
+        generateConfig({
+          filePath: output[2],
+        }),
       ]);
       rst.then(_ => {
         spinner.succeed(`子页面 ${pathAndPageName} 创建成功`);
