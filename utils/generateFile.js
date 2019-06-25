@@ -101,7 +101,7 @@ function generateFormPage({ filePath, name, filename, parentUpper = '', isUmi = 
   };
   return fs.writeFile(filePath,
     `import React from 'react';
-import ${name}Form from '${map[isUmi]}/${parentUpper}Form/${filename}';
+import ${name}Form from '${map[isUmi]}/${parentUpper}.Form/${filename}';
 
 export default (props) => <${name}Form />
 `

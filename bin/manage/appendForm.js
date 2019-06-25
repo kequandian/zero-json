@@ -22,11 +22,11 @@ module.exports = function (pathAndPageName, dirPath, direct, spinner) {
 
   if (isUmi) {
     pagesPath = path.join(dirPath, '/src', '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'config', parentUpper, 'Form');
+    srcPath = path.join(dirPath, '/src', 'config', parentUpper, '.Form');
 
   } else {
     pagesPath = path.join(dirPath, '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'pages', parentUpper, 'Form');
+    srcPath = path.join(dirPath, '/src', 'pages', parentUpper, '.Form');
 
   }
   output.push(path.join(pagesPath, `${pageName}-add.js`));
