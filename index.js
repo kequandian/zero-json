@@ -6,6 +6,7 @@ const shell = require('shelljs');
 const {
   init: manageInit,
   add: manageAdd,
+  form: manageForm,
   remove: manageRemove,
   endpoint: manageEndpoint
 } = require('./bin/manage');
@@ -24,8 +25,9 @@ program
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
     '  -> manage add <pageName> 添加页面',
+    '  -> manage form <pageName> 直接添加页面对应的表单页面',
     '  -> manage remove <pageName> 移除页面',
-    '  -> manage endpoint <endpoint> 移除页面',
+    '  -> manage endpoint <endpoint> 编辑 endpoint',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -37,6 +39,10 @@ program
         const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         manageAdd(pageNameF, program.dirPath, API, program.direct);
+      },
+      'form': (pageName) => {
+        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        manageForm(pageNameF, program.dirPath, program.direct);
       },
       'remove': (pageName) => {
         manageRemove(pageName, program.dirPath, program.direct);
@@ -52,7 +58,7 @@ program
         }
       },
       'undefined': () => {
-        console.log('无效的 action。可选 init | add | remove | endpoint');
+        console.log('无效的 action。可选 init | add | form | remove | endpoint');
       },
     };
     (actionMap[action] || actionMap[undefined])(...restArg);

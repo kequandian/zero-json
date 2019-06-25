@@ -5,13 +5,11 @@ const path = require('path');
 const append = require('./append');
 const confirm = require('../../utils/confirm');
 const {
-  generatePage,
-  generateIndex,
-  generateConfig,
-  generateForm,
+  generateFormPage,
+  generateFormIndex,
 } = require('../../utils/generateFile');
 
-module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
+module.exports = function (pathAndPageName, dirPath, direct, spinner) {
   const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
   const [parents, pageName] = pathAndPageName.split('/');
   const parentUpper = parents.replace(/^\S/, (s) => s.toUpperCase());
@@ -24,43 +22,48 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
 
   if (isUmi) {
     pagesPath = path.join(dirPath, '/src', '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'config', parentUpper);
+    srcPath = path.join(dirPath, '/src', 'config', parentUpper, 'Form');
 
   } else {
     pagesPath = path.join(dirPath, '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'pages', parentUpper);
+    srcPath = path.join(dirPath, '/src', 'pages', parentUpper, 'Form');
 
   }
-  output.push(path.join(pagesPath, `${pageName}.js`));
-  output.push(path.join(srcPath, `${fileName}.js`));
-  output.push(path.join(srcPath, 'config', `${parents}-${pageName}.js`));
-  output.push(path.join(srcPath, 'config', `${parents}-${pageName}-form.json`));
+  output.push(path.join(pagesPath, `${pageName}-add.js`));
+  output.push(path.join(pagesPath, `${pageName}-edit.js`));
+  output.push(path.join(srcPath, `${fileName}Add.js`));
+  output.push(path.join(srcPath, `${fileName}Edit.js`));
   fs.ensureDirSync(pagesPath);
-  fs.ensureDirSync(path.join(srcPath, 'config'));
+  fs.ensureDirSync(path.join(srcPath));
 
   confirm(
     fs.existsSync(output[0]),
     function () {
       const rst = Promise.all([
-        generatePage({
+        generateFormPage({
           filePath: output[0],
           name: fileName,
           parentUpper: `${parentUpper}/`,
+          filename: `${fileName}Add`,
           isUmi,
         }),
-        generateIndex({
+        generateFormPage({
           filePath: output[1],
+          name: fileName,
+          parentUpper: `${parentUpper}/`,
+          filename: `${fileName}Edit`,
+          isUmi,
+        }),
+        generateFormIndex({
+          filePath: output[2],
           name: pageName,
           parentName: `${parents}-`,
-          namespace: parents,
         }),
-        generateConfig({
-          filePath: output[2],
-          name: pathAndPageName,
-        }),
-        generateForm({
+        generateFormIndex({
           filePath: output[3],
-        })
+          name: pageName,
+          parentName: `${parents}-`,
+        }),
       ]);
       rst.then(_ => {
         spinner.succeed(`子页面 ${pathAndPageName} 创建成功`);

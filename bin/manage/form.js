@@ -2,20 +2,18 @@
 const ora = require('ora');
 const fs = require('fs-extra');
 const path = require('path');
-const append = require('./append');
+const appendForm = require('./appendForm');
 const confirm = require('../../utils/confirm');
 const {
-  generatePage,
-  generateIndex,
-  generateConfig,
-  generateForm,
+  generateFormPage,
+  generateFormIndex,
 } = require('../../utils/generateFile');
 
-module.exports = function (pageName, dirPath, API, direct) {
-  const spinner = ora(`新增后台管理页面： ${pageName}`).start();
+module.exports = function (pageName, dirPath, direct) {
+  const spinner = ora(`新增后台管理页面对应的表单页： ${pageName}`).start();
   if (/^\w/.test(pageName)) {
     if (/^\w+\/\w+$/.test(pageName)) {
-      append(pageName, dirPath, API, direct, spinner);
+      appendForm(pageName, dirPath, direct, spinner);
     } else {
       const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
       const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
@@ -33,10 +31,10 @@ module.exports = function (pageName, dirPath, API, direct) {
         pagesPath = path.join(dirPath, '/pages');
         srcPath = path.join(dirPath, '/src', 'pages', fileName);
       }
-      output.push(path.join(pagesPath, `${pageName}.js`));
-      output.push(path.join(srcPath, 'index.js'));
-      output.push(path.join(srcPath, 'config', `${pageName}.js`));
-      output.push(path.join(srcPath, 'config', `${pageName}-form.json`));
+      output.push(path.join(pagesPath, `${pageName}-add.js`));
+      output.push(path.join(pagesPath, `${pageName}-edit.js`));
+      output.push(path.join(srcPath, `${pageName}Add.js`));
+      output.push(path.join(srcPath, `${pageName}Edit.js`));
       fs.ensureDirSync(pagesPath);
       fs.ensureDirSync(path.join(srcPath, 'config'));
 
@@ -44,21 +42,25 @@ module.exports = function (pageName, dirPath, API, direct) {
         fs.existsSync(output[0]),
         function () {
           const rst = Promise.all([
-            generatePage({
+            generateFormPage({
               filePath: output[0],
               name: fileName,
+              filename: `${pageName}Add`,
               isUmi,
             }),
-            generateIndex({
+            generateFormPage({
               filePath: output[1],
-              name: pageName,
+              name: fileName,
+              filename: `${pageName}Edit`,
+              isUmi,
             }),
-            generateConfig({
+            generateFormIndex({
               filePath: output[2],
               name: pageName,
             }),
-            generateForm({
+            generateFormIndex({
               filePath: output[3],
+              name: pageName,
             }),
           ]);
           rst.then(_ => {
