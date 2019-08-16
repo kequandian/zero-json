@@ -90,7 +90,7 @@ module.exports = function (pageName, dirPath, API, direct) {
     }
 
   } else {
-    spinner.warn(`无效的 pageName 格式, 正确示例: name 或 page/name`);
+    spinner.warn(`无效的 pageName 格式: ${pageName}, 正确示例: name 或 page/name`);
   }
 
 }

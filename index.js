@@ -36,16 +36,17 @@ program
         manageInit(projectName, program.dirPath, program.direct);
       },
       'add': (pageName) => {
-        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         manageAdd(pageNameF, program.dirPath, API, program.direct);
       },
       'form': (pageName) => {
-        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
         manageForm(pageNameF, program.dirPath, program.direct);
       },
       'remove': (pageName) => {
-        manageRemove(pageName, program.dirPath, program.direct);
+        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
+        manageRemove(pageNameF, program.dirPath, program.direct);
       },
       'endpoint': async (endpoint) => {
         if (endpoint) {
