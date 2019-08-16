@@ -67,7 +67,7 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
           filePath: output[3],
         }),
         routerUtils.append(`/${parents}`, {
-          path: pageName,
+          path: `/${parents}/${pageName}`,
           name: pageName.toUpperCase(),
           icon: 'tag',
         }),
