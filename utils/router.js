@@ -13,76 +13,47 @@ const router = function (routerFilePath) {
   delete require.cache[routerFilePath];
   const routerEntity = require(routerFilePath);
   return {
-    check: function (pageName) {
-      return routerEntity.some(route => {
-        if (route.path === '/') {
-          return route.routes.some(item => {
-            if (item.name === pageName) {
-              return true;
-            }
-            return false;
-          });
-        }
-        return false;
-      });
-    },
-    // 添加新的页面级路由
+    // 添加新的 一级菜单
     add: function (pathObject) {
+      routerEntity.push(pathObject);
+
+      return fs.outputFile(
+        routerFilePath,
+        'module.exports = ' + JSON.stringify(routerEntity, null, 2)
+      );
+    },
+    // 添加新的 二级菜单
+    append: function (pageName, pathObject) {
+      let find = false;
       routerEntity.some(route => {
         // 找到菜单的路由项
-        if (route.path === '/') {
-          route.routes.splice(-2, 0, pathObject);
+        if (route.path === pageName) {
+          find = true;
+          if (!route.items) {
+            route.items = [];
+          }
+          route.items.push(pathObject);
           return true;
         }
         return false;
       });
 
-      return fs.outputFile(
-        routerFilePath,
-        'module.exports = ' + JSON.stringify(routerEntity, null, 2)
-      );
-    },
-    append: function (pageName, pathObject) {
-      routerEntity.some(route => {
-        // 找到菜单的路由项
-        if (route.path === '/') {
-          route.routes.forEach(item => {
-            if (item.name === pageName) {
-              item.routes.splice(-1, 0, pathObject);
-            }
-          })
-          return true;
-        }
-        return false;
-      })
+      if (find === false) {
+        routerEntity.push({
+          path: pageName,
+          name: pageName.toUpperCase().replace('/', ''),
+          icon: 'tag',
+          items: [
+            pathObject,
+          ]
+        });
+      }
 
       return fs.outputFile(
         routerFilePath,
         'module.exports = ' + JSON.stringify(routerEntity, null, 2)
       );
     },
-    remove: function (parentName, pageName) {
-      routerEntity.some(route => {
-        // 找到菜单的路由项
-        if (route.path === '/') {
-          route.routes.forEach(item => {
-            if (item.name === parentName) {
-              const index = item.routes.findIndex(route => {
-                return route.path === pageName;
-              });
-              item.routes.splice(index, 1);
-            }
-          })
-          return true;
-        }
-        return false;
-      })
-
-      return fs.outputFile(
-        routerFilePath,
-        'module.exports = ' + JSON.stringify(routerEntity, null, 2)
-      );
-    }
   }
 }
 module.exports = router;

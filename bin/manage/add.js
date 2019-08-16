@@ -9,7 +9,9 @@ const {
   generateIndex,
   generateConfig,
   generateForm,
+  generateAPIFile,
 } = require('../../utils/generateFile');
+const router = require('../../utils/router');
 
 module.exports = function (pageName, dirPath, API, direct) {
   const spinner = ora(`新增后台管理页面： ${pageName}`).start();
@@ -19,6 +21,8 @@ module.exports = function (pageName, dirPath, API, direct) {
     } else {
       const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
       const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
+      const routerPath = path.join(dirPath, '/config', '/router.config.js');
+      const routerUtils = router(routerPath);
 
       let pagesPath = '';
       let srcPath = '';
@@ -37,8 +41,10 @@ module.exports = function (pageName, dirPath, API, direct) {
       output.push(path.join(srcPath, 'index.js'));
       output.push(path.join(srcPath, 'config', `${pageName}.js`));
       output.push(path.join(srcPath, 'config', `${pageName}-form.json`));
+      output.push(path.join(srcPath, '.API', `${pageName}.api.js`));
       fs.ensureDirSync(pagesPath);
       fs.ensureDirSync(path.join(srcPath, 'config'));
+      fs.ensureDirSync(path.join(srcPath, '.API'));
 
       confirm(
         fs.existsSync(output[0]),
@@ -56,9 +62,18 @@ module.exports = function (pageName, dirPath, API, direct) {
             generateConfig({
               filePath: output[2],
               name: pageName,
+              filename: fileName,
             }),
             generateForm({
               filePath: output[3],
+            }),
+            generateAPIFile({
+              filePath: output[4],
+            }),
+            routerUtils.add({
+              path: `/${pageName}`,
+              name: pageName.toUpperCase(),
+              icon: 'tags',
             }),
           ]);
           rst.then(_ => {

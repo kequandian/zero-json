@@ -7,7 +7,9 @@ module.exports = {
   generateFields,
   generateFormPage,
   generateFormIndex,
+  generateFormJSON,
   generateForm,
+  generateAPIFile,
 };
 
 function generatePage({ filePath, name, parentUpper = '', isUmi = false }) {
@@ -35,9 +37,11 @@ export default () => <ZEle namespace="${namespace}" config={config} />
   )
 }
 
-function generateConfig({ filePath, name }) {
+function generateConfig({ filePath, name, filename }) {
   return fs.writeFile(filePath,
-    `module.exports = {
+    `const API = require('../.API/${filename}.api.js');
+
+module.exports = {
   layout: 'Content',
   title: '管理页面',
   items: [
@@ -55,7 +59,7 @@ function generateConfig({ filePath, name }) {
       component: 'BaseList',
       config: {
         API: {
-          listAPI: '/api/test',
+          listAPI: API.listAPI,
         },
         actions: [
           {
@@ -112,13 +116,13 @@ function generateFormIndex({ filePath, name, parentName = '', namespace = name }
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';
-import config from '../config/${parentName}${name}-form';
+import config from '${parentName}form.js';
 
 export default () => <ZEle namespace="${namespace}" config={config} />
 `
   )
 }
-function generateForm({ filePath }) {
+function generateFormJSON({ filePath }) {
   return fs.writeFile(filePath,
     `{
   "id": 0,
@@ -127,6 +131,31 @@ function generateForm({ filePath }) {
   "items": [],
   "finalId": 1,
   "fieldCount": 1
+}
+`
+  )
+}
+
+function generateForm({ filePath, name }) {
+  return fs.writeFile(filePath,
+    `const API = require('../.API/${name}.api.js');
+
+module.exports = {
+  "layout": "Content",
+  "title": "表单",
+  "items": []
+}
+`
+  )
+}
+
+function generateAPIFile({ filePath }) {
+  return fs.writeFile(filePath,
+    `module.exports = {
+  "listAPI": "",
+  "getAPI": "",
+  "createAPI": "",
+  "updateAPI": "",
 }
 `
   )

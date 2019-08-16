@@ -7,6 +7,8 @@ const confirm = require('../../utils/confirm');
 const {
   generateFormPage,
   generateFormIndex,
+  generateForm,
+  generateFormJSON,
 } = require('../../utils/generateFile');
 
 module.exports = function (pathAndPageName, dirPath, direct, spinner) {
@@ -33,6 +35,10 @@ module.exports = function (pathAndPageName, dirPath, direct, spinner) {
   output.push(path.join(pagesPath, `${pageName}-edit.js`));
   output.push(path.join(srcPath, `${fileName}Add.js`));
   output.push(path.join(srcPath, `${fileName}Edit.js`));
+  output.push(path.join(srcPath, `${fileName}-add.form.js`));
+  output.push(path.join(srcPath, `${fileName}-edit.form.js`));
+  output.push(path.join(srcPath, `${fileName}-add.form.json`));
+  output.push(path.join(srcPath, `${fileName}-edit.form.json`));
   fs.ensureDirSync(pagesPath);
   fs.ensureDirSync(path.join(srcPath));
 
@@ -57,16 +63,30 @@ module.exports = function (pathAndPageName, dirPath, direct, spinner) {
         generateFormIndex({
           filePath: output[2],
           name: pageName,
-          parentName: `${parents}-`,
+          parentName: `./${fileName}-add.`,
         }),
         generateFormIndex({
           filePath: output[3],
           name: pageName,
-          parentName: `${parents}-`,
+          parentName: `./${fileName}-edit.`,
+        }),
+        generateForm({
+          filePath: output[4],
+          name: fileName,
+        }),
+        generateForm({
+          filePath: output[5],
+          name: fileName,
+        }),
+        generateFormJSON({
+          filePath: output[6],
+        }),
+        generateFormJSON({
+          filePath: output[7],
         }),
       ]);
       rst.then(_ => {
-        spinner.succeed(`子页面 ${pathAndPageName} 创建成功`);
+        spinner.succeed(`子页面表单页 ${pathAndPageName} 创建成功`);
         process.exit();
       })
     },
