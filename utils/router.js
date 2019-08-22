@@ -25,28 +25,31 @@ const router = function (routerFilePath) {
     // 添加新的 二级菜单
     append: function (pageName, pathObject) {
       let find = false;
-      routerEntity.some(route => {
-        // 找到菜单的路由项
-        if (route.path === pageName) {
-          find = true;
-          if (!route.items) {
-            route.items = [];
+      const [, index] = findRoute(pathName, routerEntity);
+      if (!index) {
+        routerEntity.some(route => {
+          // 找到菜单的路由项
+          if (route.path === pageName) {
+            find = true;
+            if (!route.items) {
+              route.items = [];
+            }
+            route.items.push(pathObject);
+            return true;
           }
-          route.items.push(pathObject);
-          return true;
-        }
-        return false;
-      });
-
-      if (find === false) {
-        routerEntity.push({
-          path: pageName,
-          name: pageName.toUpperCase().replace('/', ''),
-          icon: 'tag',
-          items: [
-            pathObject,
-          ]
+          return false;
         });
+
+        if (find === false) {
+          routerEntity.push({
+            path: pageName,
+            name: pageName.toUpperCase().replace('/', ''),
+            icon: 'tag',
+            items: [
+              pathObject,
+            ]
+          });
+        }
       }
 
       return fs.outputFile(
@@ -55,5 +58,36 @@ const router = function (routerFilePath) {
       );
     },
   }
+}
+/**
+ * 从路由实体中找到 pathName 的实体
+ * @param {string} pathName 需要找的路由路径
+ * @param {array} routerEntity 读取路由配置文件后返回的实体
+ */
+function findRoute(pathName, routerEntity) {
+  const stack = [routerEntity];
+  let parent = [];
+  let index;
+
+  while (stack.length) {
+    const list = stack.shift();
+    const rst = list.some((route, i) => {
+      if (route.path === pathName) {
+        parent = list;
+        index = i;
+        return true;
+      }
+      if (Array.isArray(route.items)) {
+        stack.push(route.items);
+      }
+      return false;
+    });
+
+    if (rst) {
+      break;
+    }
+  }
+
+  return [parent, index];
 }
 module.exports = router;
