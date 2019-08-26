@@ -25,7 +25,7 @@ const router = function (routerFilePath) {
     // 添加新的 二级菜单
     append: function (pageName, pathObject) {
       let find = false;
-      const [, index] = findRoute(pathName, routerEntity);
+      const [, index] = findRoute(pageName, routerEntity);
       if (!index) {
         routerEntity.some(route => {
           // 找到菜单的路由项
