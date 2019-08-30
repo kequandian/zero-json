@@ -21,7 +21,7 @@ function generatePage({ filePath, name, parentUpper = '', isUmi = false }) {
     `import React from 'react';
 import ${name} from '${map[isUmi]}/${parentUpper}${name}';
 
-export default (props) => <${name} />
+export default (props) => <${name} />;
 `
   )
 }
@@ -32,7 +32,7 @@ function generateIndex({ filePath, name, parentName = '', namespace = name }) {
 import ZEle from 'zero-element';
 import config from './config/${parentName}${name}';
 
-export default () => <ZEle namespace="${namespace}" config={config} />
+export default () => <ZEle namespace="${namespace}" config={config} />;
 `
   )
 }
@@ -69,9 +69,13 @@ module.exports = {
             },
           }
         ],
-        fields: [
-          { field: 'title', label: '名称' },
-        ],
+        fields: 
+        // zero_fields_start
+        [
+          { "field": "title", "label": "名称" }
+        ]
+        // zero_fields_end
+        ,
         operation: [
           {
             title: '编辑', action: 'path',
@@ -107,7 +111,7 @@ function generateFormPage({ filePath, name, filename, parentUpper = '', isUmi = 
     `import React from 'react';
 import ${name}Form from '${map[isUmi]}/${parentUpper}.Form/${filename}';
 
-export default (props) => <${name}Form />
+export default (props) => <${name}Form />;
 `
   )
 }
@@ -118,7 +122,7 @@ function generateFormIndex({ filePath, name, parentName = '', namespace = name }
 import ZEle from 'zero-element';
 import config from '${parentName}form.js';
 
-export default () => <ZEle namespace="${namespace}" config={config} />
+export default () => <ZEle namespace="${namespace}" config={config} />;
 `
   )
 }
