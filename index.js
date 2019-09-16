@@ -11,6 +11,10 @@ const {
   endpoint: manageEndpoint
 } = require('./bin/manage');
 
+const {
+  init: moduleInit,
+} = require('./bin/module');
+
 program
   .version(require('./package').version)
   .description('初始化项目、页面管理')
@@ -61,6 +65,22 @@ program
       'undefined': () => {
         console.log('无效的 action。可选 init | add | form | remove | endpoint');
       },
+    };
+    (actionMap[action] || actionMap[undefined])(...restArg);
+  })
+
+program
+  .command('module <action> [arguments]')
+  .description([
+    '后台管理模块 工具',
+    '  -> module init <moduleName> 初始化一个后台管理模块',
+  ].join('\n'))
+  .action(function () {
+    const [action, ...restArg] = arguments;
+    const actionMap = {
+      'init': (moduleName) => {
+        moduleInit(moduleName, program.dirPath, program.direct);
+      }
     };
     (actionMap[action] || actionMap[undefined])(...restArg);
   })
