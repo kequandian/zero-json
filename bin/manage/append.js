@@ -16,7 +16,7 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
   const [parents, pageName] = pathAndPageName.split('/');
   const parentUpper = parents.replace(/^\S/, (s) => s.toUpperCase());
   const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
-  const routerPath = path.join(dirPath, '/config', '/router.config.js');
+  const routerPath = path.join(dirPath, 'src/config/router.config.js');
   const routerUtils = router(routerPath);
 
   let pagesPath = '';
@@ -25,12 +25,12 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
   const output = [];
 
   if (isUmi) {
-    pagesPath = path.join(dirPath, '/src', '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'config', parentUpper);
+    pagesPath = path.join(dirPath, 'src/pages', parents);
+    srcPath = path.join(dirPath, 'src/pages', parentUpper);
 
   } else {
     pagesPath = path.join(dirPath, '/pages', parents);
-    srcPath = path.join(dirPath, '/src', 'pages', parentUpper);
+    srcPath = path.join(dirPath, '/src/pages', parentUpper);
 
   }
   output.push(path.join(pagesPath, `${pageName}.js`));

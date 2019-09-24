@@ -21,7 +21,7 @@ module.exports = function (pageName, dirPath, API, direct) {
     } else {
       const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
       const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
-      const routerPath = path.join(dirPath, '/config', '/router.config.js');
+      const routerPath = path.join(dirPath, 'src/config/router.config.js');
       const routerUtils = router(routerPath);
 
       let pagesPath = '';
