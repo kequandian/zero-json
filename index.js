@@ -40,16 +40,16 @@ program
         manageInit(projectName, program.dirPath, program.direct);
       },
       'add': (pageName) => {
-        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
+        const pageNameF = replaceGitShellRootPath(pageName);
         const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
         manageAdd(pageNameF, program.dirPath, API, program.direct);
       },
       'form': (pageName) => {
-        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
+        const pageNameF = replaceGitShellRootPath(pageName);
         manageForm(pageNameF, program.dirPath, program.direct);
       },
       'remove': (pageName) => {
-        const pageNameF = pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
+        const pageNameF = replaceGitShellRootPath(pageName);
         manageRemove(pageNameF, program.dirPath, program.direct);
       },
       'endpoint': async (endpoint) => {
@@ -86,3 +86,15 @@ program
   })
 
 program.parse(process.argv)
+
+
+/**
+ * git shell 会把 / 解析为根绝对路径
+ * @param {string} pageName 
+ */
+function replaceGitShellRootPath(pageName) {
+  if (shell.env.EXEPATH) {
+    return pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
+  }
+  return pageName;
+}
