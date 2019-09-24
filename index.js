@@ -41,7 +41,7 @@ program
       },
       'add': (pageName) => {
         const pageNameF = replaceGitShellRootPath(pageName);
-        const API = program.API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+        const API = replaceAPIRootPath(program.API);
         manageAdd(pageNameF, program.dirPath, API, program.direct);
       },
       'form': (pageName) => {
@@ -97,4 +97,11 @@ function replaceGitShellRootPath(pageName) {
     return pageName.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '').replace(/^\'{0,1}([\w\/]+)\'{0,1}$/, '$1');
   }
   return pageName;
+}
+
+function replaceAPIRootPath(API) {
+  if (shell.env.EXEPATH) {
+    return API.replace(shell.env.EXEPATH.replace(/\\/g, '/'), '');
+  }
+  return API;
 }
