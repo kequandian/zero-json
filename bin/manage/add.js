@@ -19,6 +19,8 @@ module.exports = function (pageName, dirPath, API, direct) {
     if (/^\w+\/\w+$/.test(pageName)) {
       append(pageName, dirPath, API, direct, spinner);
     } else {
+      console.log('TODO');
+      return false;
       const isUmi = fs.existsSync(path.join(dirPath, '.umirc.js'));
       const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
       const routerPath = path.join(dirPath, 'src/config/router.config.js');
@@ -44,7 +46,6 @@ module.exports = function (pageName, dirPath, API, direct) {
       output.push(path.join(srcPath, '.API', `${pageName}.api.js`));
       fs.ensureDirSync(pagesPath);
       fs.ensureDirSync(path.join(srcPath, 'config'));
-      fs.ensureDirSync(path.join(srcPath, '.API'));
 
       confirm(
         fs.existsSync(output[0]),

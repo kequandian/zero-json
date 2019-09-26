@@ -26,7 +26,7 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
 
   if (isUmi) {
     pagesPath = path.join(dirPath, 'src/pages', parents);
-    srcPath = path.join(dirPath, 'src/pages', parentUpper);
+    srcPath = path.join(dirPath, 'src/pages', parents);
 
   } else {
     pagesPath = path.join(dirPath, '/pages', parents);
@@ -35,12 +35,12 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
   }
   output.push(path.join(pagesPath, `${pageName}.js`));
   output.push(path.join(srcPath, `${fileName}.js`));
-  output.push(path.join(srcPath, 'config', `${parents}-${pageName}.js`));
-  output.push(path.join(srcPath, '.API', `${fileName}.api.js`));
+  output.push(path.join(srcPath, `config/${fileName}/index.js`));
+  output.push(path.join(srcPath, `config/${fileName}/.API`, `${pageName}.api.js`));
   fs.ensureDirSync(pagesPath);
   fs.ensureDirSync(path.join(srcPath, 'config'));
-  fs.ensureDirSync(path.join(srcPath, '.Form'));
-  fs.ensureDirSync(path.join(srcPath, '.API'));
+  fs.ensureDirSync(path.join(srcPath, `config/${fileName}/.Form`));
+  fs.ensureDirSync(path.join(srcPath, `config/${fileName}/.API`));
 
   confirm(
     fs.existsSync(output[0]),
@@ -54,14 +54,13 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
         }),
         generateIndex({
           filePath: output[1],
-          name: pageName,
-          parentName: `${parents}-`,
+          name: fileName,
           namespace: parents,
         }),
         generateConfig({
           filePath: output[2],
           name: pathAndPageName,
-          filename: fileName,
+          apiFileName: pageName,
         }),
         generateAPIFile({
           filePath: output[3],

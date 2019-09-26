@@ -72,11 +72,11 @@ module.exports = function (pathAndPageName, dirPath, direct, spinner) {
         }),
         generateForm({
           filePath: output[4],
-          name: fileName,
+          apiFileName: pageName,
         }),
         generateForm({
           filePath: output[5],
-          name: fileName,
+          apiFileName: pageName,
         }),
         generateFormJSON({
           filePath: output[6],

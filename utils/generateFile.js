@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const path = require('path');
 
 module.exports = {
   generatePage,
@@ -26,20 +27,22 @@ export default (props) => <${name} />;
   )
 }
 
-function generateIndex({ filePath, name, parentName = '', namespace = name }) {
+function generateIndex({ filePath, name, namespace = name }) {
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';
-import config from './config/${parentName}${name}';
+import config from './config/${name}';
 
 export default () => <ZEle namespace="${namespace}" config={config} />;
 `
   )
 }
 
-function generateConfig({ filePath, name, filename }) {
+function generateConfig({ filePath, name, apiFileName }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
-    `const API = require('../.API/${filename}.api.js');
+    `const API = require('./.API/${apiFileName}.api.js');
 
 module.exports = {
   layout: 'Content',
@@ -94,6 +97,8 @@ module.exports = {
 }
 
 function generateFields({ filePath }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
     `module.exports = [
       { field: 'name', label: '名称', type: 'input' },
@@ -103,6 +108,8 @@ function generateFields({ filePath }) {
 }
 
 function generateFormPage({ filePath, name, filename, parentUpper = '', isUmi = false }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   const map = {
     'true': '@/config',
     'false': '@/src/pages',
@@ -117,6 +124,8 @@ export default (props) => <${name}Form />;
 }
 
 function generateFormIndex({ filePath, name, parentName = '', namespace = name }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';
@@ -127,6 +136,8 @@ export default () => <ZEle namespace="${namespace}" config={config} />;
   )
 }
 function generateFormJSON({ filePath }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
     `{
   "id": 0,
@@ -140,9 +151,11 @@ function generateFormJSON({ filePath }) {
   )
 }
 
-function generateForm({ filePath, name }) {
+function generateForm({ filePath, apiFileName }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
-    `const API = require('../.API/${name}.api.js');
+    `const API = require('../.API/${apiFileName}.api.js');
 
 module.exports = {
   "layout": "Content",
@@ -154,6 +167,8 @@ module.exports = {
 }
 
 function generateAPIFile({ filePath }) {
+  fs.ensureDirSync(path.dirname(filePath));
+
   return fs.writeFile(filePath,
     `module.exports = {
   "listAPI": "",
