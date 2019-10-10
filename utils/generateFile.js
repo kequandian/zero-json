@@ -13,14 +13,18 @@ module.exports = {
   generateAPIFile,
 };
 
-function generatePage({ filePath, name, parentUpper = '', isUmi = false }) {
+/**
+ * 用于路由，故文件名 filePath 需要小写
+ * @param {*} param0 
+ */
+function generatePage({ filePath, name, parents = '', isUmi = false }) {
   const map = {
     'true': '@/config',
     'false': '@/src/pages',
   };
   return fs.writeFile(filePath,
     `import React from 'react';
-import ${name} from '${map[isUmi]}/${parentUpper}${name}';
+import ${name} from '${map[isUmi]}/${parents}${name}';
 
 export default (props) => <${name} />;
 `
@@ -28,6 +32,7 @@ export default (props) => <${name} />;
 }
 
 function generateIndex({ filePath, name, namespace = name }) {
+
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';

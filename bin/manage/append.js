@@ -34,8 +34,8 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
 
   }
   output.push(path.join(pagesPath, `${pageName}.js`));
-  output.push(path.join(srcPath, `${fileName}.js`));
   output.push(path.join(srcPath, `config/${fileName}/index.js`));
+  output.push(path.join(srcPath, `config/${fileName}/config.js`));
   output.push(path.join(srcPath, `config/${fileName}/.API`, `${pageName}.api.js`));
   fs.ensureDirSync(pagesPath);
   fs.ensureDirSync(path.join(srcPath, 'config'));
@@ -49,8 +49,8 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
         generatePage({
           filePath: output[0],
           name: fileName,
-          parentUpper: `${parentUpper}/`,
-          isUmi,
+          parents: `${parents}/`,
+          // isUmi,
         }),
         generateIndex({
           filePath: output[1],
