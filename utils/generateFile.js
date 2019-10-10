@@ -19,12 +19,12 @@ module.exports = {
  */
 function generatePage({ filePath, name, parents = '', isUmi = false }) {
   const map = {
-    'true': '@/config',
+    'true': '@/pages', // umi 根目录从 src 开始
     'false': '@/src/pages',
   };
   return fs.writeFile(filePath,
     `import React from 'react';
-import ${name} from '${map[isUmi]}/${parents}${name}';
+import ${name} from '${map[isUmi]}/${parents}/config/${name}';
 
 export default (props) => <${name} />;
 `
@@ -36,7 +36,7 @@ function generateIndex({ filePath, name, namespace = name }) {
   return fs.writeFile(filePath,
     `import React from 'react';
 import ZEle from 'zero-element';
-import config from './config/${name}';
+import config from './config';
 
 export default () => <ZEle namespace="${namespace}" config={config} />;
 `

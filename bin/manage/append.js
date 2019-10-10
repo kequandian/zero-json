@@ -50,7 +50,7 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
           filePath: output[0],
           name: fileName,
           parents: `${parents}/`,
-          // isUmi,
+          isUmi,
         }),
         generateIndex({
           filePath: output[1],
