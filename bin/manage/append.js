@@ -16,8 +16,8 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
   const [parents, pageName] = pathAndPageName.split('/');
   const parentUpper = parents.replace(/^\S/, (s) => s.toUpperCase());
   const fileName = pageName.replace(/^\S/, (s) => s.toUpperCase());
-  const routerPath = path.join(dirPath, 'src/config/router.config.js');
-  const routerUtils = router(routerPath);
+  // const routerPath = path.join(dirPath, 'src/config/router.config.js');
+  // const routerUtils = router(routerPath);
 
   let pagesPath = '';
   let srcPath = '';
@@ -65,11 +65,11 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
         generateAPIFile({
           filePath: output[3],
         }),
-        routerUtils.append(`/${parents}`, {
-          path: `/${parents}/${pageName}`,
-          name: pageName.toUpperCase(),
-          icon: 'tag',
-        }),
+        // routerUtils.append(`/${parents}`, {
+        //   path: `/${parents}/${pageName}`,
+        //   name: pageName.toUpperCase(),
+        //   icon: 'tag',
+        // }),
       ]);
       rst.then(_ => {
         spinner.succeed(`子页面 ${pathAndPageName} 创建成功`);
