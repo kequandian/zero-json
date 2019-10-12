@@ -49,7 +49,7 @@ module.exports = function (pathAndPageName, dirPath, API, direct, spinner) {
         generatePage({
           filePath: output[0],
           name: fileName,
-          parents: `${parents}/`,
+          parents: parents,
           isUmi,
         }),
         generateIndex({
