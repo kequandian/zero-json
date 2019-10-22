@@ -51,7 +51,7 @@ function generateConfig({ filePath, name, apiFileName }) {
 
 module.exports = {
   layout: 'Content',
-  title: '管理页面',
+  title: API.pageName,
   items: [
     {
       layout: 'Empty',
@@ -176,6 +176,7 @@ function generateAPIFile({ filePath }) {
 
   return fs.writeFile(filePath,
     `module.exports = {
+  "pageName": "管理页面",
   "listAPI": "",
   "getAPI": "",
   "createAPI": "",
