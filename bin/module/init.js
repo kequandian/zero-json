@@ -22,13 +22,16 @@ module.exports = function (moduleName, dirPath, direct) {
           .then((path) => {
             if (path) {
               shell.exec(`rm -rf ./${moduleName}/.git`, function () {
-                shell.exec(
-                  `mv ./${moduleName}/.gitignore ./${moduleName}/.gitignore.bak && mv ./${moduleName}/.gitignore.child ./${moduleName}/.gitignore`,
-                  function () {
-                    spinner.succeed(`后台模块 ${moduleName} 初始化成功`);
-                    res();
-                    process.exit();
-                  })
+                spinner.succeed(`后台模块 ${moduleName} 初始化成功`);
+                res();
+                process.exit();
+                // shell.exec(
+                //   `mv ./${moduleName}/.gitignore ./${moduleName}/.gitignore.bak && mv ./${moduleName}/.gitignore.child ./${moduleName}/.gitignore`,
+                //   function () {
+                //     spinner.succeed(`后台模块 ${moduleName} 初始化成功`);
+                //     res();
+                //     process.exit();
+                //   })
               });
             }
           }).catch((err) => rej(err));
