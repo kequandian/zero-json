@@ -20,20 +20,19 @@ module.exports = function (projectName, dirPath, direct) {
     confirm(
       fs.existsSync(dirPath),
       function () {
-        clone(projectName, 'github@zele.pro:/home/github/isp/hub/llh/zero-code-template')
-          .then((path) => {
-            if (path) {
-              shell.exec(`rm -rf ./${projectName}/.git`, function () {
-                shell.exec(
-                  `mv ./${projectName}/.gitignore ./${projectName}/.gitignore.bak && mv ./${projectName}/.gitignore.child ./${projectName}/.gitignore`,
-                  function () {
+        fs.remove(dirPath)
+          .then(_ => {
+            clone(projectName, 'github@zele.pro:/home/github/isp/hub/llh/zero-code-template')
+              .then((path) => {
+                if (path) {
+                  shell.exec(`rm -rf ./${projectName}/.git`, function () {
                     spinner.succeed(`后台项目 ${projectName} 初始化成功`);
                     res();
                     process.exit();
-                  })
-              });
-            }
-          }).catch((err) => rej(err));
+                  });
+                }
+              }).catch((err) => rej(err));
+          })
       },
       {
         message: '目录已存在，是否覆盖？',

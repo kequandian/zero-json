@@ -5,82 +5,36 @@ const shell = require('shelljs');
 
 const {
   init: manageInit,
-  add: manageAdd,
-  form: manageForm,
-  remove: manageRemove,
-  endpoint: manageEndpoint
+  gen: manageGen,
 } = require('./bin/manage');
-
-const {
-  init: moduleInit,
-} = require('./bin/module');
 
 program
   .version(require('./package').version)
   .description('初始化项目、页面管理')
-  .option('-f, --filePath [filePath]', '命令所操作的文件')
+  .option('-i, --inputPath [inputPath]', '指定输入文件')
+  .option('-o, --outPath [outPath]', '命令输出的目录', process.cwd())
   .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
-  .option('-p, --dirPath [dirPath]', '命令所操作的目录', process.cwd())
-  .option('--API [API]', '指定操作的 API', '')
+  // .option('--API [API]', '指定操作的 API', '')
 
 program
   .command('manage <action> [arguments]')
   .description([
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
-    '  -> manage add <pageName> 添加页面',
-    '  -> manage form <pageName> 直接添加页面对应的表单页面',
-    '  -> manage remove <pageName> 移除页面',
-    '  -> manage endpoint <endpoint> 编辑 endpoint',
+    '  -> manage gen <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
     const actionMap = {
       'init': (projectName) => {
-        manageInit(projectName, program.dirPath, program.direct);
+        manageInit(projectName, program.outPath, program.direct);
       },
-      'add': (pageName) => {
-        const pageNameF = replaceGitShellRootPath(pageName);
-        const API = replaceAPIRootPath(program.API);
-        manageAdd(pageNameF, program.dirPath, API, program.direct);
-      },
-      'form': (pageName) => {
-        const pageNameF = replaceGitShellRootPath(pageName);
-        manageForm(pageNameF, program.dirPath, program.direct);
-      },
-      'remove': (pageName) => {
-        const pageNameF = replaceGitShellRootPath(pageName);
-        manageRemove(pageNameF, program.dirPath, program.direct);
-      },
-      'endpoint': async (endpoint) => {
-        if (endpoint) {
-          await manageEndpoint(endpoint);
-          console.log('endpoint 已配置');
-        } else {
-          console.log('请输入 endpoint');
-          console.log('e.g.');
-          console.log("    zero-json manage endpoint 'http://example.com:8080'");
-        }
+      'gen': (pageName) => {
+        manageGen(pageName, program.inputPath, program.outPath, program.direct);
       },
       'undefined': () => {
-        console.log('无效的 action。可选 init | add | form | remove | endpoint');
+        console.log('无效的 action。可选 init| gen');
       },
-    };
-    (actionMap[action] || actionMap[undefined])(...restArg);
-  })
-
-program
-  .command('module <action> [arguments]')
-  .description([
-    '后台管理模块 工具',
-    '  -> module init <moduleName> 初始化一个后台管理模块',
-  ].join('\n'))
-  .action(function () {
-    const [action, ...restArg] = arguments;
-    const actionMap = {
-      'init': (moduleName) => {
-        moduleInit(moduleName, program.dirPath, program.direct);
-      }
     };
     (actionMap[action] || actionMap[undefined])(...restArg);
   })
