@@ -9,8 +9,10 @@ const {
 } = require('./bin/manage');
 
 program
+  .name("zero-json")
+  .usage("Commands [Options]")
   .version(require('./package').version)
-  .description('初始化项目、页面管理')
+  .description('用于 zero-element 的初始化项目、页面管理')
   .option('-i, --inputPath [inputPath]', '指定输入文件')
   .option('-o, --outPath [outPath]', '命令输出的目录', process.cwd())
   .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)

@@ -19,9 +19,9 @@ zero-json -V
 ## 使用方式
 ```
 $ zero-json -h
-Usage: index [options] [command]
+Usage: zero-json Commands [Options]
 
-初始化项目、页面管理
+用于 zero-element 的初始化项目、页面管理
 
 Options:
   -V, --version                output the version number
