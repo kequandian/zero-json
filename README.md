@@ -47,6 +47,9 @@ Commands:
   "getAPI": "/api/example/[id]",
   "updateAPI": "/api/example/[id]",
   "deleteAPI": "/api/example/(id)",
+  "searchFields": [
+    { "field": "search", "label": "搜索", "type": "input" },
+  ],
   "tableFields": [
     {
       "label": "姓名",
