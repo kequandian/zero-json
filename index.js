@@ -16,7 +16,7 @@ program
   .option('-i, --inputPath [inputPath]', '指定输入文件')
   .option('-o, --outPath [outPath]', '命令输出的目录', process.cwd())
   .option('-d, --direct [direct]', '直接进行操作，不提示确认', false)
-  // .option('--API [API]', '指定操作的 API', '')
+// .option('--API [API]', '指定操作的 API', '')
 
 program
   .command('manage <action> [arguments]')
@@ -34,11 +34,11 @@ program
       'gen': (pageName) => {
         manageGen(pageName, program.inputPath, program.outPath, program.direct);
       },
-      'undefined': () => {
-        console.log('无效的 action。可选 init| gen');
-      },
     };
-    (actionMap[action] || actionMap[undefined])(...restArg);
+    function tipsActionList() {
+      console.log('无效的 action\n可选:', Object.keys(actionMap).join(' | '));
+    }
+    (actionMap[action] || tipsActionList)(...restArg);
   })
 
 program.parse(process.argv)
