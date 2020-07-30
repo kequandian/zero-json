@@ -33,9 +33,7 @@ module.exports = {
     {
       component: 'Search',
       config: {
-        fields: [
-          { field: 'name', label: '名字', type: 'input' }
-        ],
+        fields: setting.searchFields,
       },
     },
     {
@@ -49,7 +47,7 @@ module.exports = {
           {
             title: '新增', type: 'path',
             options: {
-              path: '/${name}-add',
+              path: '${name}/${name}-add',
             },
           }
         ],
@@ -59,7 +57,7 @@ module.exports = {
             title: '编辑', action: 'path',
             options: {
               outside: true,
-              path: '/${name}-edit',
+              path: '${name}/${name}-edit',
             },
           },
         ]

@@ -29,7 +29,7 @@ module.exports = function (pageName, jsonPath, dirPath, direct) {
   const pagesPath = path.join(dirPath, pageName);
 
   const outFileList = [
-    path.join(pagesPath, `${pageName}.js`),
+    path.join(pagesPath, `index.js`),
     path.join(pagesPath, `${pageName}-add.js`),
     path.join(pagesPath, `${pageName}-edit.js`),
     // path.join(pagesPath, `${pageName}-view.js`),
@@ -90,8 +90,16 @@ module.exports = function (pageName, jsonPath, dirPath, direct) {
                 getAPI: '',
                 updateAPI: '',
                 deleteAPI: '',
-                tableFields: [],
-                formFields: [],
+                searchFields: [
+                  { field: 'search', label: '搜索', type: 'input' },
+                ],
+                tableFields: [
+                  { field: 'id', label: 'ID' },
+                  { field: 'name', label: '名称' },
+                ],
+                formFields: [
+                  { field: 'name', label: '名称', type: 'input' },
+                ],
                 ...jsonData,
               }
             }),
