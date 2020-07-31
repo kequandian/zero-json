@@ -48,7 +48,7 @@ Commands:
   "updateAPI": "/api/example/[id]",
   "deleteAPI": "/api/example/(id)",
   "searchFields": [
-    { "field": "search", "label": "搜索", "type": "input" },
+    { "field": "search", "label": "搜索", "type": "input" }
   ],
   "tableFields": [
     {

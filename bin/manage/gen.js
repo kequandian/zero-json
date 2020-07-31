@@ -13,17 +13,25 @@ const {
 } = require('../../utils/generateFile');
 
 module.exports = function (pageName, jsonPath, dirPath, direct) {
-  let spinner;
   let jsonData = {};
   let canReadJson;
 
-  if (jsonPath) {
-    spinner = ora(`读取 json ${jsonPath} 生成 CRUD 后台管理页面 ${pageName}`).start();
-    canReadJson = _ => fs.readJson(jsonPath)
-      .then(value => jsonData = value)
-  } else {
-    spinner = ora(`未通过参数 -i 输入 json 文件, 直接生成 CRUD 后台管理页面 ${pageName}`).start();
-    canReadJson = _ => Promise.resolve()
+  const spinner = ora(`生成 CRUD 后台管理页面 ${pageName}`).start();
+  canReadJson = _ => {
+    if (jsonPath) {
+      spinner.info(`读取 json ${jsonPath} 生成 CRUD 后台管理页面 ${pageName}`);
+      return fs.readJson(jsonPath)
+        .then(value => jsonData = value)
+    } else {
+      const defaultJSONFile = path.join(process.cwd(), 'build.json');
+      spinner.info(`未通过参数 -i 输入 json 文件, 尝试读取 ${defaultJSONFile}`);
+      return fs.readJson(defaultJSONFile)
+        .then(value => jsonData = value)
+        .catch(_ => {
+          spinner.warn('读取 json 失败, 将会使用默认值来生成 CRUD 后台管理页面');
+          return Promise.resolve();
+        })
+    }
   }
 
   const pagesPath = path.join(dirPath, pageName);
@@ -41,7 +49,7 @@ module.exports = function (pageName, jsonPath, dirPath, direct) {
   ];
 
   outFileList.forEach(f => {
-    f && spinner.info(`生成文件：${f}`);
+    f && spinner.info(`预期生成文件：${f}`);
   })
 
   confirm(
@@ -106,7 +114,11 @@ module.exports = function (pageName, jsonPath, dirPath, direct) {
           ]);
         })
         .then(_ => {
-          spinner.succeed(`成功`);
+          spinner.succeed(`文件已生成`);
+          process.exit();
+        })
+        .catch(e => {
+          spinner.fail(e.message);
           process.exit();
         })
     },
