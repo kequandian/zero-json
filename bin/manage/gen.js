@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const confirm = require('../../utils/confirm');
 const read = require('../../utils/swagger/read');
+const { mergeObject } = require('../../utils/index');
 
 const {
   generateIndex,
@@ -74,7 +75,12 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
       canReadJson()
         .then(_ => fs.ensureDir(`${pagesPath}/config`))
         .then(_ => {
-          const { crudAPI, ...restJsonData } = jsonData;
+          const {
+            crudAPI, map = {},
+            searchFields, tableFields, formFields,
+            ...restJsonData
+          } = jsonData;
+          const mapObj = createMapObj(map);
 
           return Promise.all([
             generateIndex({
@@ -127,7 +133,11 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
                   { field: 'name', label: '名称', type: 'input' },
                 ],
                 ...genCRUDAPI(crudAPI),
+                searchFields: formatFields(searchFields, mapObj),
+                tableFields: formatFields(tableFields, mapObj),
+                formFields: formatFields(formFields, mapObj),
                 ...restJsonData,
+                map: mapObj,
               }
             }),
           ]);
@@ -137,6 +147,7 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
           process.exit();
         })
         .catch(e => {
+          throw e;
           spinner.fail(e.message);
           process.exit();
         })
@@ -169,4 +180,58 @@ function genCRUDAPI(api) {
     }
   }
   return {};
+}
+
+/**
+ * 生成映射关系
+ * @param {object} map 
+ */
+function createMapObj(map) {
+  const rst = {};
+  Object.keys(map).forEach(key => {
+    return rst[key] = {
+      map: map[key],
+      options: Object.keys(map[key]).map(
+        k => ({ label: map[key][k], value: k })
+      )
+    };
+  })
+  return rst;
+}
+
+/**
+ * 暂时只用来处理 map
+ * @param {array} fields 
+ */
+function formatFields(fields, mapObj) {
+  return fields.map(field => {
+    const { type, ...rest } = field;
+
+    if (type) {
+      // 表单字段
+      if (mapObj[field.field] && /^(radio|select)$/.test(type)) {
+        return mergeObject(
+          {
+            options: mapObj[field.field].options
+          },
+          field
+        );
+      }
+    } else {
+      // 表格字段
+      if (mapObj[field.field]) {
+        return mergeObject(
+          {
+            valueType: 'tag',
+            options: {
+              map: mapObj[field.field].map
+            }
+          },
+          field
+        );
+      }
+
+    }
+    return field;
+  })
 }

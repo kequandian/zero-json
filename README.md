@@ -61,10 +61,18 @@ zero-json manage gen 页面名称 -i ~/myJSON.json
 
 ##### 用于生成文件的 json
 
+配置了 `map` 的话, formFields type 为 `radio` 或者 `select` 的字段会自动补充上映射关系, tableFields 的同名字段也会自动补充上映射关系
+
 ``` json
 {
   "pageName": "测试页面",
   "crudAPI": "/api/example",
+  "map": {
+    "sex": {
+      "0": "男",
+      "1": "女"
+    }
+  },
   "searchFields": [
     { "field": "search", "label": "搜索", "type": "input" }
   ],
@@ -72,6 +80,16 @@ zero-json manage gen 页面名称 -i ~/myJSON.json
     {
       "label": "姓名",
       "field": "name"
+    },
+    {
+      "label": "性别",
+      "field": "sex",
+      "options": {
+        "color": {
+          "0": "lightblue",
+          "1": "#fc7ebe"
+        }
+      }
     }
   ],
   "formFields": [
@@ -79,6 +97,11 @@ zero-json manage gen 页面名称 -i ~/myJSON.json
       "label": "姓名",
       "field": "name",
       "type": "input"
+    },
+    {
+      "label": "性别",
+      "field": "sex",
+      "type": "radio"
     }
   ]
 }
