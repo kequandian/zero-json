@@ -60,6 +60,9 @@ module.exports = {
               path: '${name}/${name}-edit',
             },
           },
+          {
+            title: '删除', type: 'delete',
+          },
         ]
       },
     },
