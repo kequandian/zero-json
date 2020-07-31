@@ -27,8 +27,8 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
           getAPI: `${API}/[id]`,
           updateAPI: `${API}/[id]`,
           deleteAPI: `${API}/(id)`,
-          tableFields: data.get.fields,
-          formFields: data.post.fields,
+          tableFields: filterFields(data.get.fields),
+          formFields: filterFields(data.post.fields),
         };
       })
   } else {
@@ -143,4 +143,14 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
       direct: direct,
     }
   );
+}
+
+/**
+ * 过滤 id, xxxxId 字段
+ * @param {array} list 
+ */
+function filterFields(list) {
+  return list.filter(
+    i => (!/(id|Id)$/.test(i.field))
+  )
 }
