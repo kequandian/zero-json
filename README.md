@@ -64,11 +64,7 @@ zero-json manage gen 页面名称 -i ~/myJSON.json
 ``` json
 {
   "pageName": "测试页面",
-  "listAPI": "/api/example",
-  "createAPI": "/api/example",
-  "getAPI": "/api/example/[id]",
-  "updateAPI": "/api/example/[id]",
-  "deleteAPI": "/api/example/(id)",
+  "crudAPI": "/api/example",
   "searchFields": [
     { "field": "search", "label": "搜索", "type": "input" }
   ],

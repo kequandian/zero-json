@@ -74,6 +74,8 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
       canReadJson()
         .then(_ => fs.ensureDir(`${pagesPath}/config`))
         .then(_ => {
+          const { crudAPI, ...restJsonData } = jsonData;
+
           return Promise.all([
             generateIndex({
               filePath: outFileList[0],
@@ -124,7 +126,8 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
                 formFields: [
                   { field: 'name', label: '名称', type: 'input' },
                 ],
-                ...jsonData,
+                ...genCRUDAPI(crudAPI),
+                ...restJsonData,
               }
             }),
           ]);
@@ -153,4 +156,17 @@ function filterFields(list) {
   return list.filter(
     i => (!/(id|Id)$/.test(i.field))
   )
+}
+
+function genCRUDAPI(api) {
+  if (api) {
+    return {
+      listAPI: `${api}`,
+      createAPI: `${api}`,
+      getAPI: `${api}/[id]`,
+      updateAPI: `${api}/[id]`,
+      deleteAPI: `${api}/(id)`,
+    }
+  }
+  return {};
 }
