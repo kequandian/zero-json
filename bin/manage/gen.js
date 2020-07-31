@@ -3,6 +3,7 @@ const ora = require('ora');
 const fs = require('fs-extra');
 const path = require('path');
 const confirm = require('../../utils/confirm');
+const read = require('../../utils/swagger/read');
 
 const {
   generateIndex,
@@ -12,25 +13,40 @@ const {
   generateSettingFile,
 } = require('../../utils/generateFile');
 
-module.exports = function (pageName, jsonPath, dirPath, direct) {
+module.exports = function (pageName, jsonPath, dirPath, API, direct) {
   let jsonData = {};
   let canReadJson;
 
   const spinner = ora(`生成 CRUD 后台管理页面 ${pageName}`).start();
-  canReadJson = _ => {
-    if (jsonPath) {
-      spinner.info(`读取 json ${jsonPath} 生成 CRUD 后台管理页面 ${pageName}`);
-      return fs.readJson(jsonPath)
-        .then(value => jsonData = value)
-    } else {
-      const defaultJSONFile = path.join(process.cwd(), 'build.json');
-      spinner.info(`未通过参数 -i 输入 json 文件, 尝试读取 ${defaultJSONFile}`);
-      return fs.readJson(defaultJSONFile)
-        .then(value => jsonData = value)
-        .catch(_ => {
-          spinner.warn('读取 json 失败, 将会使用默认值来生成 CRUD 后台管理页面');
-          return Promise.resolve();
-        })
+  if (API) {
+    canReadJson = _ => read(API)
+      .then(data => {
+        jsonData = {
+          listAPI: `${API}`,
+          createAPI: `${API}`,
+          getAPI: `${API}/[id]`,
+          updateAPI: `${API}/[id]`,
+          deleteAPI: `${API}/(id)`,
+          tableFields: data.get.fields,
+          formFields: data.post.fields,
+        };
+      })
+  } else {
+    canReadJson = _ => {
+      if (jsonPath) {
+        spinner.info(`读取 json ${jsonPath} 生成 CRUD 后台管理页面 ${pageName}`);
+        return fs.readJson(jsonPath)
+          .then(value => jsonData = value)
+      } else {
+        const defaultJSONFile = path.join(process.cwd(), 'build.json');
+        spinner.info(`未通过参数 -i 输入 json 文件, 尝试读取 ${defaultJSONFile}`);
+        return fs.readJson(defaultJSONFile)
+          .then(value => jsonData = value)
+          .catch(_ => {
+            spinner.warn('读取 json 失败, 将会使用默认值来生成 CRUD 后台管理页面');
+            return Promise.resolve();
+          })
+      }
     }
   }
 
