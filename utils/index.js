@@ -1,6 +1,7 @@
 
 /**
- * 合并两个对象, 如果有重复的值, 那么就取 targetObj 的值
+ * 合并两个对象
+ * 如果有重复的值, 那么就取 targetObj 的值
  * @param {object} formObj 
  * @param {object} targetObj 
  */

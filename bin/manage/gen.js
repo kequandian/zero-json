@@ -23,11 +23,7 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
     canReadJson = _ => read(API)
       .then(data => {
         jsonData = {
-          listAPI: `${API}`,
-          createAPI: `${API}`,
-          getAPI: `${API}/[id]`,
-          updateAPI: `${API}/[id]`,
-          deleteAPI: `${API}/(id)`,
+          ...genCRUDAPI(API),
           tableFields: filterFields(data.get.fields),
           formFields: filterFields(data.post.fields),
         };
@@ -147,7 +143,6 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
           process.exit();
         })
         .catch(e => {
-          throw e;
           spinner.fail(e.message);
           process.exit();
         })

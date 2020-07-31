@@ -59,7 +59,7 @@ zero-json manage gen 页面名称
 zero-json manage gen 页面名称 -i ~/myJSON.json
 ```
 
-##### 用于生成文件的 json
+##### 用于生成文件的 json (`build.json`)
 
 配置了 `map` 的话, formFields type 为 `radio` 或者 `select` 的字段会自动补充上映射关系, tableFields 的同名字段也会自动补充上映射关系
 
