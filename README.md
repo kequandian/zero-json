@@ -1,21 +1,18 @@
 ## 安装
-
 ``` shell
-npm install
-
-npm link
+$ npm i -g 
+## or below two lines
+$ npm install
+$ npm link
 ```
 
 安装成功:
-
 ``` shell
-zero-json -V
-
+$ zero-json -V
 2.1.0
 ```
 
 ## 使用方式
-
 ``` 
 $ zero-json -h
 Usage: zero-json Commands [Options]
@@ -38,7 +35,6 @@ Commands:
   swagger <action> [arguments]  swagger 工具
     -> swagger ls [filter] 列出 swagger 可用的 API
     -> swagger format 重新 format swagger.json 文件
-
 ```
 
 ### 示例: 如何生成 CRUD 页面
