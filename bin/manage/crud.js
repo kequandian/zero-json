@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const confirm = require('../../utils/confirm');
 const read = require('../../utils/swagger/read');
-const { mergeObject } = require('../../utils/index');
+const program = require('commander');
 
 const {
   generateIndex,
@@ -14,9 +14,17 @@ const {
   generateSettingFile,
 } = require('../../utils/generateFile');
 
-module.exports = function (pageName, jsonPath, dirPath, API, direct) {
+const {
+  filterFields,
+  genCRUDAPI,
+  createMapObj,
+  formatFields,
+} = require('../../utils/formatToBuildJSON');
+
+module.exports = function (pageName, API) {
   let jsonData = {};
   let canReadJson;
+  const { inputPath: jsonPath, outPath: dirPath, direct } = program;
 
   const spinner = ora(`生成 CRUD 后台管理页面 ${pageName}`).start();
   if (API) {
@@ -152,81 +160,4 @@ module.exports = function (pageName, jsonPath, dirPath, API, direct) {
       direct: direct,
     }
   );
-}
-
-/**
- * 过滤 id, xxxxId 字段
- * @param {array} list 
- */
-function filterFields(list) {
-  return list.filter(
-    i => (!/(id|Id)$/.test(i.field))
-  )
-}
-
-function genCRUDAPI(api) {
-  if (api) {
-    return {
-      listAPI: `${api}`,
-      createAPI: `${api}`,
-      getAPI: `${api}/[id]`,
-      updateAPI: `${api}/[id]`,
-      deleteAPI: `${api}/(id)`,
-    }
-  }
-  return {};
-}
-
-/**
- * 生成映射关系
- * @param {object} map 
- */
-function createMapObj(map) {
-  const rst = {};
-  Object.keys(map).forEach(key => {
-    return rst[key] = {
-      map: map[key],
-      options: Object.keys(map[key]).map(
-        k => ({ label: map[key][k], value: k })
-      )
-    };
-  })
-  return rst;
-}
-
-/**
- * 暂时只用来处理 map
- * @param {array} fields 
- */
-function formatFields(fields, mapObj) {
-  return fields.map(field => {
-    const { type, ...rest } = field;
-
-    if (type) {
-      // 表单字段
-      if (mapObj[field.field] && /^(radio|select)$/.test(type)) {
-        return mergeObject(
-          {
-            options: mapObj[field.field].options
-          },
-          field
-        );
-      }
-    } else {
-      // 表格字段
-      if (mapObj[field.field]) {
-        return mergeObject(
-          {
-            valueType: 'tag',
-            options: {
-              map: mapObj[field.field].map
-            }
-          },
-          field
-        );
-      }
-
-    }
-    return field;
-  })
 }

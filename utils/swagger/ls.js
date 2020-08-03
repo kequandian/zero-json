@@ -1,7 +1,6 @@
 const program = require('commander');
 const fs = require('fs-extra');
 const path = require('path');
-const fsExtra = require('fs-extra');
 const format = require('./format');
 const shell = require('shelljs');
 
@@ -18,7 +17,7 @@ module.exports = function ls(filter, pwdPath) {
 }
 
 function list(path, filter = '') {
-  fsExtra.readJSON(path).then((jsonData) => {
+  fs.readJSON(path).then((jsonData) => {
     const lsData = [];
     Object.keys(jsonData).forEach(API => {
       const APIItem = jsonData[API];
@@ -29,7 +28,7 @@ function list(path, filter = '') {
         }
       });
     });
-    fsExtra.outputFile(`${path}/../ls`, lsData.join('\n'))
+    fs.outputFile(`${path}/../ls`, lsData.join('\n'))
     .then( () => {
       shell.exec(`cat ${path}/../ls | grep '${filter}' `);
     } )

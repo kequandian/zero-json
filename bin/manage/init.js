@@ -7,8 +7,11 @@ const cwd = process.cwd();
 const path = require('path');
 const shell = require('shelljs');
 const confirm = require('../../utils/confirm');
+const program = require('commander');
 
-module.exports = function (projectName, dirPath, direct) {
+module.exports = function (projectName) {
+  const { outPath: dirPath, direct } = program;
+
   if (!projectName) {
     console.log(`无效的项目名：${projectName}`);
     return false;

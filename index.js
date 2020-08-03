@@ -3,7 +3,7 @@
 const program = require('commander');
 const shell = require('shelljs');
 const path = require('path');
-const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
+const { ls: swaggerLs, format: swaggerFormat, json: swaggerJson } = require('./bin/swagger');
 
 const {
   init: manageInit,
@@ -33,10 +33,10 @@ program
     const [action, ...restArg] = arguments;
     const actionMap = {
       'init': (projectName) => {
-        manageInit(projectName, program.outPath, program.direct);
+        manageInit(projectName);
       },
       'crud': (pageName) => {
-        manageCrud(pageName, program.inputPath, program.outPath, replaceAPIRootPath(program.API), program.direct);
+        manageCrud(pageName, replaceAPIRootPath(program.API));
       },
     };
     function tipsActionList() {
@@ -51,6 +51,7 @@ program
     'swagger 工具',
     '  -> swagger ls [filter] 列出 swagger 可用的 API',
     '  -> swagger format 重新 format swagger.json 文件',
+    '  -> swagger json [fileName] 生成一个 build.json 文件',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -60,6 +61,9 @@ program
       },
       'format': () => {
         swaggerFormat(program.dirPath);
+      },
+      'json': (fileName) => {
+        swaggerJson(fileName, replaceAPIRootPath(program.API));
       },
     };
     function tipsActionList() {
