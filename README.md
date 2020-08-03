@@ -44,27 +44,27 @@ Commands:
 
 ### 示例: 如何生成 CRUD 页面
 
-一般来说, 需要通过特定格式的 `build.json` 文件来生成页面
+一般来说, 需要通过特定格式的 `BUILD JSON` 文件来生成页面
 
-#### 通过 swagger 生成 json 文件
+#### 通过 swagger 生成 `BUILD JSON` 文件
 
-除了直接手写以外, 推荐通过 `swagger.json` 文件来生成 `build.json`
+除了直接手写以外, 推荐通过 `swagger.json` 文件来生成 `BUILD JSON`
 
 先拷贝 `swagger.json` 于目录 `./swagger/swagger.json` 
 
 然后通过命令生成
 
 ``` bash
-$ zero-json swagger json myJson --API /api/example
+$ zero-json swagger json myJSON --API /api/example
 ```
 
 > 这里的 API 的值应当为 `swagger.js` 里面的 get list record 的 API
 
-> 上面的命令会在当前工作目录输出文件 `./myJson.json` , 你也可以通过 `-o ~/work/myJson.js` 来输出到其它路径
+> 上面的命令会在当前工作目录输出文件 `./myJSON.json` , 你也可以通过 `-o ~/work/myJSON.js` 来输出到其它路径
 
 #### 通过 json 生成 crud 页面
 
-于当前目录下, 创建 `build.json` , 然后通过命令生成
+于当前目录下, 创建一个 `BUILD JSON` 格式的文件 `build.json` , 然后通过命令生成
 
 ``` bash
 $ zero-json manage crud 页面名称
@@ -76,7 +76,7 @@ $ zero-json manage crud 页面名称
 $ zero-json manage crud 页面名称 -i ~/work/myJSON.json
 ```
 
-##### 用于生成文件的 json ( `build.json` ) 格式参考
+##### 用于生成文件的 json ( `BUILD JSON` ) 格式参考
 
 配置了 `map` 的话, formFields type 为 `radio` 或者 `select` 的字段会自动补充上映射关系, tableFields 的同名字段也会自动补充上映射关系
 
