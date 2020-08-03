@@ -7,7 +7,7 @@ const { ls: swaggerLs, format: swaggerFormat } = require('./bin/swagger');
 
 const {
   init: manageInit,
-  gen: manageGen,
+  crud: manageCrud,
 } = require('./bin/manage');
 
 program
@@ -27,7 +27,7 @@ program
   .description([
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
-    '  -> manage gen <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面',
+    '  -> manage crud <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -35,8 +35,8 @@ program
       'init': (projectName) => {
         manageInit(projectName, program.outPath, program.direct);
       },
-      'gen': (pageName) => {
-        manageGen(pageName, program.inputPath, program.outPath, replaceAPIRootPath(program.API), program.direct);
+      'crud': (pageName) => {
+        manageCrud(pageName, program.inputPath, program.outPath, replaceAPIRootPath(program.API), program.direct);
       },
     };
     function tipsActionList() {

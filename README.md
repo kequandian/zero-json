@@ -31,7 +31,7 @@ Options:
 Commands:
   manage <action> [arguments]   后台管理项目 工具
     -> manage init <projectName> 初始化一个后台管理项目
-    -> manage gen <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面
+    -> manage crud <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面
   swagger <action> [arguments]  swagger 工具
     -> swagger ls [filter] 列出 swagger 可用的 API
     -> swagger format 重新 format swagger.json 文件
@@ -46,13 +46,13 @@ Commands:
 于当前目录下, 创建 `build.json` , 然后通过命令生成
 
 ``` bash
-zero-json manage gen 页面名称
+zero-json manage crud 页面名称
 ```
 
 或者通过参数 `-i` 指定其它目录的 json 文件
 
 ``` bash
-zero-json manage gen 页面名称 -i ~/myJSON.json
+zero-json manage crud 页面名称 -i ~/myJSON.json
 ```
 
 ##### 用于生成文件的 json (`build.json`)
@@ -110,7 +110,7 @@ zero-json manage gen 页面名称 -i ~/myJSON.json
 然后通过命令生成
 
 ``` bash
-zero-json manage gen 页面名称 --API /api/example
+zero-json manage crud 页面名称 --API /api/example
 ```
 
 > 这里的 API 的值应当为 `swagger.js` 里面的 get list record 的 API

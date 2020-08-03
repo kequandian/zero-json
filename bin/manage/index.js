@@ -1,7 +1,7 @@
 const init = require('./init');
-const gen = require('./gen');
+const crud = require('./crud');
 
 module.exports = {
   init,
-  gen,
+  crud,
 }
