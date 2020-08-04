@@ -87,6 +87,10 @@ module.exports = {
         API: {
           createAPI: setting.createAPI,
         },
+        layout: 'Grid',
+        layoutConfig: {
+          value: [12, 12],
+        },
         fields: setting.formFields,
       },
     },
@@ -111,6 +115,10 @@ module.exports = {
         API: {
           getAPI: setting.getAPI,
           updateAPI: setting.updateAPI,
+        },
+        layout: 'Grid',
+        layoutConfig: {
+          value: [12, 12],
         },
         fields: setting.formFields,
       },
