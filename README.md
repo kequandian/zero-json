@@ -42,6 +42,7 @@ Commands:
     -> swagger ls [filter] 列出 swagger 可用的 API
     -> swagger format 重新 format swagger.json 文件
     -> swagger json [fileName] 生成一个 BUILD JSON 文件
+  mock <port>                   基于 BUILD JSON 来启动一个简单的 mock 服务器
 ```
 
 ### 示例: 如何生成 CRUD 页面
@@ -50,7 +51,7 @@ Commands:
 
 #### 通过 swagger 生成 `BUILD JSON` 文件
 
-除了直接手写以外, 推荐通过 `swagger.json` 文件来生成 `BUILD JSON`
+除了直接手写以外, 推荐通过 `swagger.json` 文件来生成 `BUILD JSON` 
 
 先拷贝 `swagger.json` 于目录 `./swagger/swagger.json` 
 
@@ -77,6 +78,19 @@ $ zero-json manage crud 页面名称
 ``` bash
 $ zero-json manage crud 页面名称 -i ~/work/myJSON.json
 ```
+
+### 示例: 如何启动 mock server
+
+在生成页面之后, 可以通过 `zero-json` 自带的 `mock server` 来简单地测试一下页面
+
+``` bash
+$ zero-json mock 8080 -i ./build.json
+mock server listen port to 8080
+
+CRUD API: /api/example
+```
+即可在 `8080` 端口启动一个带有基本 CRUD 功能的 API `/api/example`
+
 
 ##### 用于生成文件的 json ( `BUILD JSON` ) 格式参考
 
