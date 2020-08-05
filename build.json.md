@@ -1,4 +1,4 @@
- #build.json 格式参考
+# build.json 格式参考
   简单模板格式例子
 ``` 
 {
@@ -139,7 +139,7 @@
 ]
  ```
 
-###模板元素组件属性：
+### 模板元素组件属性：
 >常用type组件类型有：`input`, `select`, `date`, `text-area`, `pcd`
 
 input：基本输入框
