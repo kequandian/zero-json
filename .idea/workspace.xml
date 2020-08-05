@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="07bb4ef1-b9ed-45de-a8b4-66431db1f715" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json.md" beforeDir="false" afterPath="$PROJECT_DIR$/build.json.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1fRfZ5PBUDKhenVLtlLtuosUwbA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\IT\Code\web\zero-json" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="07bb4ef1-b9ed-45de-a8b4-66431db1f715" name="Default Changelist" comment="" />
+      <created>1596185877623</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596185877623</updated>
+      <workItem from="1596185880270" duration="891000" />
+      <workItem from="1596515202697" duration="185000" />
+      <workItem from="1596590651060" duration="7731000" />
+    </task>
+    <task id="LOCAL-00001" summary="更新说明文档">
+      <created>1596599909474</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1596599909474</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="更新说明文档" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新说明文档" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="398" y="0" key="CommitChangelistDialog2" timestamp="1596599908728">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="398" y="0" key="CommitChangelistDialog2/0.0.1600.860@0.0.1600.860" timestamp="1596599908728" />
+    <state x="580" y="127" key="FileChooserDialogImpl" timestamp="1596594418025">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="580" y="127" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1596594418025" />
+    <state x="152" y="67" key="MergeDialog" timestamp="1596600022797">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="152" y="67" key="MergeDialog/0.0.1600.860@0.0.1600.860" timestamp="1596600022797" />
+    <state x="685" y="295" width="425" height="270" key="MultipleFileMergeDialog" timestamp="1596600022805">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="685" y="295" width="425" height="270" key="MultipleFileMergeDialog/0.0.1600.860@0.0.1600.860" timestamp="1596600022805" />
+    <state x="440" y="132" key="NewModule_or_Project.wizard" timestamp="1596594418898">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="440" y="132" key="NewModule_or_Project.wizard/0.0.1600.860@0.0.1600.860" timestamp="1596594418898" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1596599990727">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1596599990727" />
+    <state x="593" y="342" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596595820759">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="593" y="342" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1600.860@0.0.1600.860" timestamp="1596595820759" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1596597213063">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1596597213063" />
+  </component>
+</project>
