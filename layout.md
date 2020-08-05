@@ -1,3 +1,5 @@
+## 页面布局设置 
+```
 const setting = require('./test-setting.json');
 
 module.exports = {
@@ -19,3 +21,4 @@ module.exports = {
     },
   ],
 };
+```
