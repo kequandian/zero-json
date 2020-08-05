@@ -8,6 +8,7 @@ const { ls: swaggerLs, format: swaggerFormat, json: swaggerJson } = require('./b
 const {
   init: manageInit,
   crud: manageCrud,
+  category: manageCategory,
 } = require('./bin/manage');
 
 program
@@ -27,7 +28,8 @@ program
   .description([
     '后台管理项目 工具',
     '  -> manage init <projectName> 初始化一个后台管理项目',
-    '  -> manage crud <pageName> 通过路径所在的 json 文件直接生成 CRUD 页面',
+    '  -> manage crud <pageName> 通过指定的 BUILD JSON 文件直接生成 CRUD 页面',
+    '  -> manage category <pageName> <scope> [...opt] 通过指定的 BUILD JSON 文件生成带有分类功能的 CRUD 页面',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -37,6 +39,9 @@ program
       },
       'crud': (pageName) => {
         manageCrud(pageName, replaceAPIRootPath(program.API));
+      },
+      'category': (pageName, Command) => {
+        manageCategory(pageName, Command.parent.rawArgs[5], replaceAPIRootPath(program.API));
       },
     };
     function tipsActionList() {
@@ -51,7 +56,7 @@ program
     'swagger 工具',
     '  -> swagger ls [filter] 列出 swagger 可用的 API',
     '  -> swagger format 重新 format swagger.json 文件',
-    '  -> swagger json [fileName] 生成一个 build.json 文件',
+    '  -> swagger json [fileName] 生成一个 BUILD JSON 文件',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
