@@ -11,10 +11,10 @@ function filterFields(list) {
   )
 }
 
-function genCRUDAPI(api) {
+function genCRUDAPI(api, queryString = '') {
   if (api) {
     return {
-      listAPI: `${api}`,
+      listAPI: `${api}${queryString}`,
       createAPI: `${api}`,
       getAPI: `${api}/[id]`,
       updateAPI: `${api}/[id]`,

@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
   generateIndex,
   generateTableConfig,
+  generateCategoryTableConfig,
   generateAddFormConfig,
   generateEditFormConfig,
   generateSettingFile,
@@ -42,6 +43,56 @@ module.exports = {
         API: {
           listAPI: setting.listAPI,
           deleteAPI: setting.deleteAPI,
+        },
+        actions: [
+          {
+            title: '新增', type: 'path',
+            options: {
+              path: '${name}/${name}-add',
+            },
+          }
+        ],
+        fields: setting.tableFields,
+        operation: [
+          {
+            title: '编辑', type: 'path',
+            options: {
+              outside: true,
+              path: '${name}/${name}-edit',
+            },
+          },
+          {
+            title: '删除', type: 'delete',
+          },
+        ]
+      },
+    },
+  ],
+};
+`
+  )
+}
+
+function generateCategoryTableConfig({ filePath, name, scope }) {
+
+  return fs.writeFile(filePath,
+    `const setting = require('./${name}-setting.json');
+
+module.exports = {
+  layout: 'TitleContent',
+  title: setting.pageName,
+  items: [
+    {
+      component: 'TreeList',
+      config: {
+        API: {
+          listAPI: setting.listAPI,
+          deleteAPI: setting.deleteAPI,
+        },
+        tree: {
+          API: {
+            initAPI: '/api/category/categories/all/tree?scope=${scope}',
+          }
         },
         actions: [
           {
