@@ -1,13 +1,5 @@
 # dependencies
 /node_modules
 
-# template
-/template
-
-# swagger
-/swagger
-
-# temp
-/shell
-
-/node_modules
+# mock
+bin/temp

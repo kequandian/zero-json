@@ -11,6 +11,8 @@ const {
   category: manageCategory,
 } = require('./bin/manage');
 
+const { spawn } = require('child_process');
+
 program
   .name("zero-json")
   .usage("Commands [Options]")
@@ -75,6 +77,26 @@ program
       console.log('无效的 action\n可选:', Object.keys(actionMap).join(' | '));
     }
     (actionMap[action] || tipsActionList)(...restArg);
+  })
+
+program
+  .command('mock <port>')
+  .description([
+    '基于 BUILD JSON 来启动一个简单的 mock 服务器',
+  ].join('\n'))
+  .action(function () {
+    const [port] = arguments;
+    const defaultJSONFile = program.inputPath || path.join(process.cwd(), 'build.json');
+
+    const ls = spawn('node', ['./bin/mock', defaultJSONFile, port]);
+
+    ls.stdout.on('data', (data) => {
+      console.log(`${data}`);
+    });
+
+    ls.stderr.on('data', (data) => {
+      console.error(`mock err: ${data}`);
+    });
   })
 
 program.parse(process.argv)
