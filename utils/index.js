@@ -11,14 +11,14 @@ function mergeObject(formObj, targetObj) {
 
   keyList.forEach(key => {
     if (formObj && formObj[key]) {
-      if (String(formObj[key]) === '[object Object]') {
+      if (String(formObj[key]) === '[object Object]' && String(targetObj) === '[object Object]') {
         rst[key] = mergeObject(formObj[key], targetObj[key]);
       } else {
         rst[key] = formObj[key];
       }
     }
     if (targetObj && targetObj[key]) {
-      if (String(targetObj[key]) === '[object Object]') {
+      if (String(targetObj[key]) === '[object Object]' && String(formObj) === '[object Object]') {
         rst[key] = mergeObject(formObj[key], targetObj[key]);
       } else {
         rst[key] = targetObj[key];

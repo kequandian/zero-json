@@ -99,7 +99,7 @@ function yamlToBuildJSON(yaml) {
     view: [],
   };
   Object.keys(fields).forEach(field => {
-    const { options, scope, sql, ...rest } = fields[field];
+    const { type, options, scope, sql, ...rest } = fields[field];
 
     if (Array.isArray(options)) {
       if (!map[field]) {
@@ -120,10 +120,20 @@ function yamlToBuildJSON(yaml) {
 
     if (Array.isArray(scope)) {
       scope.forEach(key => {
-        fieldsSource[key] && fieldsSource[key].push({
-          ...rest,
-          field,
-        });
+        if (fieldsSource[key]) {
+          if (key === 'list') {
+            fieldsSource[key].push({
+              ...rest,
+              field,
+            });
+          } else {
+            fieldsSource[key].push({
+              ...rest,
+              type,
+              field,
+            });
+          }
+        }
       })
     }
   });
@@ -132,6 +142,7 @@ function yamlToBuildJSON(yaml) {
   const data = {
     ...genCRUDAPI(api),
     columns,
+    map,
     tableFields: formatFields(fieldsSource.list, mapObj),
     createFields: formatFields(fieldsSource.new, mapObj),
     updateFields: formatFields(fieldsSource.edit, mapObj),
