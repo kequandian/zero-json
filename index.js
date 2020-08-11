@@ -15,6 +15,11 @@ const {
   crud: yamlCrud,
 } = require('./bin/yaml');
 
+const {
+  create: routerCreate,
+  remove: routerRemove,
+} = require('./bin/router');
+
 const { spawn } = require('child_process');
 
 program
@@ -109,6 +114,37 @@ program
     const actionMap = {
       'crud': (pageName) => {
         yamlCrud(defaultYamlFile, pageName);
+      }
+    };
+    (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
+  })
+
+program
+  .command('router <action> [arguments]')
+  .description([
+    'router 文件处理工具',
+    '  -> router create [routeName] [routePath] 创建一条新路由, 或修改已有路由的名称',
+    '  -> router remove [routePath] 移除已有的路由',
+  ].join('\n'))
+  .action(function () {
+    const [action, ...restArg] = arguments;
+    const actionMap = {
+      'create': (routeName, Command) => {
+        const routePath = Command.parent.rawArgs[5];
+        if (/^\w+\/{0,1}\w{0,}$/.test(routePath)) {
+          routerCreate(routeName, routePath);
+        } else {
+          console.log(`zero-json router create ${routeName} [routePath]\n`);
+          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage`);
+        }
+      },
+      'remove': (routePath) => {
+        if (/^\w+\/{0,1}\w{0,}$/.test(routePath)) {
+          routerRemove(routePath);
+        } else {
+          console.log(`zero-json router remove [routePath]\n`);
+          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage`);
+        }
       }
     };
     (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
