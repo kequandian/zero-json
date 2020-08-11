@@ -1,32 +1,24 @@
 
 const ora = require('ora');
-const fs = require('fs-extra');
-const path = require('path');
-const confirm = require('../../utils/confirm');
-const read = require('../../utils/swagger/read');
 const program = require('commander');
+const path = require('path');
+const fs = require('fs-extra');
 
-const {
-  generateIndex,
-  generateTableConfig,
-  generateAddFormConfig,
-  generateEditFormConfig,
-  generateSettingFile,
-} = require('../../utils/generateFile');
-
+const read = require('../../utils/swagger/read');
+const genCRUDPage = require('../utils/genCRUDPage');
 const {
   filterFields,
   genCRUDAPI,
-  createMapObj,
-  formatFields,
 } = require('../../utils/formatToBuildJSON');
 
 module.exports = function (pageName, API) {
-  let jsonData = {};
-  let canReadJson;
-  const { inputPath: jsonPath, outPath: dirPath, direct } = program;
+  const { inputPath: jsonPath } = program;
 
   const spinner = ora(`生成 CRUD 后台管理页面 ${pageName}`).start();
+
+  let jsonData = {};
+  let canReadJson;
+
   if (API) {
     canReadJson = _ => read(API)
       .then(data => {
@@ -55,109 +47,14 @@ module.exports = function (pageName, API) {
     }
   }
 
-  const pagesPath = path.join(dirPath, pageName);
-
-  const outFileList = [
-    path.join(pagesPath, `index.js`),
-    path.join(pagesPath, `${pageName}-add.js`),
-    path.join(pagesPath, `${pageName}-edit.js`),
-    // path.join(pagesPath, `${pageName}-view.js`),
-    undefined,
-    path.join(pagesPath, `config/index.js`),
-    path.join(pagesPath, `config/${pageName}-add.js`),
-    path.join(pagesPath, `config/${pageName}-edit.js`),
-    path.join(pagesPath, `config/${pageName}-setting.json`),
-  ];
-
-  outFileList.forEach(f => {
-    f && spinner.info(`预期生成文件：${f}`);
-  })
-
-  confirm(
-    fs.existsSync(pagesPath),
-    function () {
-      canReadJson()
-        .then(_ => fs.ensureDir(`${pagesPath}/config`))
+  canReadJson()
+    .then(_ => {
+      return genCRUDPage(pageName, spinner, jsonData)
         .then(_ => {
-          const {
-            crudAPI, map = {},
-            searchFields, tableFields, formFields,
-            ...restJsonData
-          } = jsonData;
-          const mapObj = createMapObj(map);
-
-          return Promise.all([
-            generateIndex({
-              filePath: outFileList[0],
-              namespace: pageName,
-              type: 'index',
-            }),
-            generateIndex({
-              filePath: outFileList[1],
-              namespace: `${pageName}_add`,
-              type: `${pageName}-add`,
-            }),
-            generateIndex({
-              filePath: outFileList[2],
-              namespace: `${pageName}_edit`,
-              type: `${pageName}-edit`,
-            }),
-
-            generateTableConfig({
-              filePath: outFileList[4],
-              name: pageName,
-            }),
-            generateAddFormConfig({
-              filePath: outFileList[5],
-              name: pageName,
-            }),
-            generateEditFormConfig({
-              filePath: outFileList[6],
-              name: pageName,
-            }),
-
-
-            generateSettingFile({
-              filePath: outFileList[7],
-              data: {
-                pageName,
-                listAPI: '',
-                createAPI: '',
-                getAPI: '',
-                updateAPI: '',
-                deleteAPI: '',
-                searchFields: [
-                  { field: 'search', label: '搜索', type: 'input' },
-                ],
-                tableFields: [
-                  { field: 'id', label: 'ID' },
-                  { field: 'name', label: '名称' },
-                ],
-                formFields: [
-                  { field: 'name', label: '名称', type: 'input' },
-                ],
-                ...genCRUDAPI(crudAPI),
-                searchFields: formatFields(searchFields, mapObj),
-                tableFields: formatFields(tableFields, mapObj),
-                formFields: formatFields(formFields, mapObj),
-                ...restJsonData,
-                map: mapObj,
-              }
-            }),
-          ]);
+          // spinner.succeed(`文件已生成`);
         })
-        .then(_ => {
-          spinner.succeed(`文件已生成`);
-          process.exit();
-        })
-        .catch(e => {
-          spinner.fail(e.message);
-          process.exit();
-        })
-    },
-    {
-      message: '确定要覆盖以上文件及目录？',
-      direct: direct,
-    }
-  );
+    })
+    .finally(_ => {
+      process.exit();
+    })
 }

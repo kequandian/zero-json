@@ -11,6 +11,10 @@ const {
   category: manageCategory,
 } = require('./bin/manage');
 
+const {
+  crud: yamlCrud,
+} = require('./bin/yaml');
+
 const { spawn } = require('child_process');
 
 program
@@ -46,10 +50,7 @@ program
         manageCategory(pageName, Command.parent.rawArgs[5], replaceAPIRootPath(program.API));
       },
     };
-    function tipsActionList() {
-      console.log('无效的 action\n可选:', Object.keys(actionMap).join(' | '));
-    }
-    (actionMap[action] || tipsActionList)(...restArg);
+    (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
   })
 
 program
@@ -73,10 +74,7 @@ program
         swaggerJson(fileName, replaceAPIRootPath(program.API));
       },
     };
-    function tipsActionList() {
-      console.log('无效的 action\n可选:', Object.keys(actionMap).join(' | '));
-    }
-    (actionMap[action] || tipsActionList)(...restArg);
+    (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
   })
 
 program
@@ -99,9 +97,29 @@ program
     });
   })
 
+program
+  .command('yaml <action> [arguments]')
+  .description([
+    'yaml 工具',
+    '  -> yaml crud [pageName] 读取 yaml 文件, 生成一个 CRUD 页面',
+  ].join('\n'))
+  .action(function () {
+    const defaultYamlFile = program.inputPath || path.join(process.cwd(), 'crudless.yml');
+    const [action, ...restArg] = arguments;
+    const actionMap = {
+      'crud': (pageName) => {
+        yamlCrud(defaultYamlFile, pageName);
+      }
+    };
+    (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
+  })
+
 program.parse(process.argv)
 
 
+function tipsActionList(actionMap) {
+  console.log('无效的 action\n可选:', Object.keys(actionMap).join(' | '));
+}
 /**
  * git shell 会把 / 解析为根绝对路径
  * @param {string} pageName 

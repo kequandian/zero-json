@@ -1,6 +1,7 @@
 {
   "pageName": "测试页面",
   "crudAPI": "/api/example",
+  "columns": 2,
   "map": {
     "sex": {
       "0": "男",

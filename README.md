@@ -15,7 +15,7 @@ $ npm link
 
 ```shell
 $ zero-json -V
-2.3.0
+2.5.0
 ```
 
 主要命令
@@ -45,6 +45,8 @@ Commands:
     -> swagger format 重新 format swagger.json 文件
     -> swagger json [fileName] 生成一个 BUILD JSON 文件
   mock <port>                   基于 BUILD JSON 来启动一个简单的 mock 服务器
+  yaml <action> [arguments]     yaml 工具
+    -> yaml crud [pageName] 读取 yaml 文件, 生成一个 CRUD 页面
 ```
 
 ## 使用

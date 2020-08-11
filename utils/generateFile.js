@@ -140,9 +140,9 @@ module.exports = {
         },
         layout: 'Grid',
         layoutConfig: {
-          value: [12, 12],
+          value: Array(setting.columns).fill(~~(24 / setting.columns)),
         },
-        fields: setting.formFields,
+        fields: setting.createFields || setting.formFields,
       },
     },
   ],
@@ -169,9 +169,9 @@ module.exports = {
         },
         layout: 'Grid',
         layoutConfig: {
-          value: [12, 12],
+          value: Array(setting.columns).fill(~~(24 / setting.columns)),
         },
-        fields: setting.formFields,
+        fields: setting.updateFields || setting.formFields,
       },
     },
   ],

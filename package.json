@@ -1,6 +1,6 @@
 {
   "name": "zero-json",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -20,10 +20,11 @@
     "koa-send": "^5.0.0",
     "koa2-cors": "^2.0.6",
     "localeval": "^15.2.3",
-    "node-html-parser": "^1.1.15",
     "mockjs": "^1.1.0",
+    "node-html-parser": "^1.1.15",
     "ora": "^3.0.0",
     "shelljs": "^0.8.3",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "yaml": "^1.10.0"
   }
 }

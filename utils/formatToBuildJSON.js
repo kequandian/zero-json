@@ -44,8 +44,13 @@ function createMapObj(map) {
 /**
  * 暂时只用来处理 map
  * @param {array} fields 
+ * @param {object} mapObj 
+ * @param {object} defaulFields 
  */
-function formatFields(fields, mapObj) {
+function formatFields(fields, mapObj, defaulFields = []) {
+  if (!Array.isArray(fields)) {
+    return defaulFields;
+  }
   return fields.map(field => {
     const { type, ...rest } = field;
 
@@ -78,9 +83,67 @@ function formatFields(fields, mapObj) {
   })
 }
 
+/**
+ * 
+ * @param {object} yaml 
+ */
+function yamlToBuildJSON(yaml) {
+  const { api, list, form, fields } = yaml;
+  const { columns } = form;
+
+  const map = {};
+  const fieldsSource = {
+    list: [],
+    new: [],
+    edit: [],
+    view: [],
+  };
+  Object.keys(fields).forEach(field => {
+    const { options, scope, sql, ...rest } = fields[field];
+
+    if (Array.isArray(options)) {
+      if (!map[field]) {
+        map[field] = {};
+      }
+
+      options.forEach(opt => {
+        if (typeof opt === 'string') {
+          map[field][opt] = opt;
+        } else if (String(opt) === '[object Object]') {
+          map[field] = {
+            ...map[field],
+            ...opt,
+          };
+        }
+      });
+    }
+
+    if (Array.isArray(scope)) {
+      scope.forEach(key => {
+        fieldsSource[key] && fieldsSource[key].push({
+          ...rest,
+          field,
+        });
+      })
+    }
+  });
+
+  const mapObj = createMapObj(map);
+  const data = {
+    ...genCRUDAPI(api),
+    columns,
+    tableFields: formatFields(fieldsSource.list, mapObj),
+    createFields: formatFields(fieldsSource.new, mapObj),
+    updateFields: formatFields(fieldsSource.edit, mapObj),
+  };
+  return data;
+}
+
 module.exports = {
   filterFields,
   genCRUDAPI,
   createMapObj,
   formatFields,
+
+  yamlToBuildJSON,
 }
