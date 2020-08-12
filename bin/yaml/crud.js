@@ -2,17 +2,19 @@
 const ora = require('ora');
 const fs = require('fs-extra');
 const path = require('path');
-const confirm = require('../../utils/confirm');
-const read = require('./read');
+const cwd = process.cwd();
 const program = require('commander');
+const confirm = require('../../utils/confirm');
+const { readYAMLToBuildJSON } = require('./read');
 const genCRUDPage = require('../utils/genCRUDPage');
 
 module.exports = function (yamlFile, pageName) {
   const { inputPath: jsonPath, outPath: dirPath, direct } = program;
 
-  const spinner = ora(`读取 yaml 文件: ${yamlFile}`).start();
+  const yamlFilePath = path.resolve(cwd, yamlFile);
+  const spinner = ora(`读取 yaml 文件: ${yamlFilePath}`).start();
 
-  read(yamlFile).then(data => {
+  readYAMLToBuildJSON(yamlFile).then(data => {
     const genPageList = [];
     if (pageName) {
       spinner.info(`生成 ${pageName} 的 CRUD 页面`);

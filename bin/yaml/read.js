@@ -6,10 +6,14 @@ const confirm = require('../../utils/confirm');
 const { yamlToBuildJSON } = require('../../utils/formatToBuildJSON');
 const Yaml = require('yaml');
 
-module.exports = function (yamlFile) {
+function readYAML(yamlFile) {
   return fs.readFile(yamlFile, 'utf-8')
-    .then(data => {
-      const yamlData = Yaml.parse(data);
+    .then(data => Yaml.parse(data))
+}
+
+function readYAMLToBuildJSON(yamlFile) {
+  return readYAML(yamlFile)
+    .then(yamlData => {
       const { pages } = yamlData;
       const rst = {};
 
@@ -27,6 +31,10 @@ module.exports = function (yamlFile) {
       })
 
       return Promise.resolve(rst);
-
     })
+}
+
+module.exports = {
+  readYAML,
+  readYAMLToBuildJSON,
 }
