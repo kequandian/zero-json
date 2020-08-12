@@ -48,7 +48,7 @@ Commands:
   yaml <action> [arguments]     yaml 工具
     -> yaml crud [pageName] 读取 yaml 文件, 生成一个 CRUD 页面
   router <action> [arguments]   router 文件处理工具
-    -> router create [routeName] [routePath] 创建一条新路由, 或修改已有路由的名称
+    -> router create [routePath] [routeName] 创建一条新路由, 或修改已有路由的名称
     -> router remove [routePath] 移除已有的路由
 ```
 
