@@ -1,9 +1,23 @@
 
 function genSQl(tableName, fields) {
   const unique = [];
+  let fieldList = [...fields];
+  const idIndex = fieldList.findIndex(field => field.field === 'id');
+  let idComment = '主键id';
+  let idType = 'bigint(20)';
+
+  if (idIndex > -1) {
+    const idField = fieldList.splice(idIndex, 1).shift();
+    if (idField && idField.comment) {
+      idComment = idField.comment;
+    }
+    if (idField && idField.type) {
+      idType = idField.type;
+    }
+  }
   const sqlContent = [
-    "`id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id'",
-    ...genSQLFields(fields, unique),
+    "`id` " + idType + " NOT NULL AUTO_INCREMENT COMMENT '" + idComment + "'",
+    ...genSQLFields(fieldList, unique),
     "PRIMARY KEY (`id`)",
     unique.length ?
       `UNIQUE (${unique.map(f => "`" + f + "`").join(',')})`
@@ -30,7 +44,7 @@ function genSQLFields(fields, unique) {
 
     return orderList.map(key => {
       return field[key] ? typeMap[key](field[key]) : '';
-    }).join(' ');
+    }).join(' ').replace(/\s{2,}/g, ' ');
   })
 }
 

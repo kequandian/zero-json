@@ -10,7 +10,7 @@ const confirm = require('../../utils/confirm');
 const program = require('commander');
 
 module.exports = function (projectName) {
-  const { outPath: dirPath, direct } = program;
+  let { outPath: dirPath, direct } = program;
 
   if (!projectName) {
     console.log(`无效的项目名：${projectName}`);
