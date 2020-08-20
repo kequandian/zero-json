@@ -83,78 +83,9 @@ function formatFields(fields, mapObj, defaulFields = []) {
   })
 }
 
-/**
- * 
- * @param {object} yaml 
- */
-function yamlToBuildJSON(yaml) {
-  const { api, list, form, fields } = yaml;
-  const { columns } = form;
-
-  const map = {};
-  const fieldsSource = {
-    list: [],
-    new: [],
-    edit: [],
-    view: [],
-  };
-  Object.keys(fields).forEach(field => {
-    const { type, options, scope, sql, ...rest } = fields[field];
-
-    if (Array.isArray(options)) {
-      if (!map[field]) {
-        map[field] = {};
-      }
-
-      options.forEach(opt => {
-        if (typeof opt === 'string') {
-          map[field][opt] = opt;
-        } else if (String(opt) === '[object Object]') {
-          map[field] = {
-            ...map[field],
-            ...opt,
-          };
-        }
-      });
-    }
-
-    if (Array.isArray(scope)) {
-      scope.forEach(key => {
-        if (fieldsSource[key]) {
-          if (key === 'list') {
-            fieldsSource[key].push({
-              ...rest,
-              field,
-            });
-          } else {
-            fieldsSource[key].push({
-              ...rest,
-              type,
-              field,
-            });
-          }
-        }
-      })
-    }
-  });
-
-  const mapObj = createMapObj(map);
-  const data = {
-    ...genCRUDAPI(api),
-    columns,
-    map,
-    tableFields: formatFields(fieldsSource.list, mapObj),
-    createFields: formatFields(fieldsSource.new, mapObj),
-    updateFields: formatFields(fieldsSource.edit, mapObj),
-  };
-  return data;
-}
-
 module.exports = {
   filterFields,
   genCRUDAPI,
   createMapObj,
   formatFields,
-
-  yamlToBuildJSON,
 }

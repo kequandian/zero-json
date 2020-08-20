@@ -12,11 +12,6 @@ const {
 } = require('./bin/manage');
 
 const {
-  crud: yamlCrud,
-  sql: yamlSql,
-} = require('./bin/yaml');
-
-const {
   create: routerCreate,
   remove: routerRemove,
 } = require('./bin/router');
@@ -101,27 +96,6 @@ program
     ls.stderr.on('data', (data) => {
       console.error(`mock err: ${data}`);
     });
-  })
-
-program
-  .command('yaml <action> [arguments]')
-  .description([
-    'yaml 工具',
-    '  -> yaml crud <pageName> 读取 yaml 文件, 生成一个 CRUD 页面',
-    '  -> yaml sql <pageName> 读取 yaml 文件, 生成对应的 SQL 文件',
-  ].join('\n'))
-  .action(function () {
-    const defaultYamlFile = program.inputPath || path.join(process.cwd(), 'crudless.yml');
-    const [action, ...restArg] = arguments;
-    const actionMap = {
-      'crud': (pageName) => {
-        yamlCrud(defaultYamlFile, pageName);
-      },
-      'sql': (pageName) => {
-        yamlSql(defaultYamlFile, pageName);
-      },
-    };
-    (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
   })
 
 program

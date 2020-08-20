@@ -15,7 +15,7 @@ $ npm link
 
 ```shell
 $ zero-json -V
-2.6.0
+2.7.0
 ```
 
 主要命令
@@ -45,9 +45,6 @@ Commands:
     -> swagger format 重新 format swagger.json 文件
     -> swagger json [fileName] 生成一个 BUILD JSON 文件
   mock <port>                   基于 BUILD JSON 来启动一个简单的 mock 服务器
-  yaml <action> [arguments]     yaml 工具
-    -> yaml crud <pageName> 读取 yaml 文件, 生成一个 CRUD 页面
-    -> yaml sql <pageName> 读取 yaml 文件, 生成对应的 SQL 文件
   router <action> [arguments]   router 文件处理工具
     -> router create [routePath] [routeName] 创建一条新路由, 或修改已有路由的名称
     -> router remove [routePath] 移除已有的路由
