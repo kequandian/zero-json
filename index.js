@@ -86,8 +86,9 @@ program
   .action(function () {
     const [port] = arguments;
     const defaultJSONFile = program.inputPath || path.join(process.cwd(), 'build.json');
+    const mockPath = path.join(__dirname, './bin/mock');
 
-    const ls = spawn('node', ['./bin/mock', defaultJSONFile, port]);
+    const ls = spawn('node', [mockPath, defaultJSONFile, port]);
 
     ls.stdout.on('data', (data) => {
       console.log(`${data}`);
