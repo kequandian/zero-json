@@ -14,8 +14,6 @@ const {
 
 const {
   genCRUDAPI,
-  createMapObj,
-  formatFields,
 } = require('../../utils/formatToBuildJSON');
 
 
@@ -42,10 +40,6 @@ module.exports = function (pageName, spinner, jsonData) {
       f && spinner.info(`预期生成文件：${f}`);
     })
 
-    const defaultSearchFields = [
-      { field: 'search', label: '搜索', type: 'input' },
-    ];
-
     confirm(
       fs.existsSync(pagesPath),
       function () {
@@ -56,7 +50,6 @@ module.exports = function (pageName, spinner, jsonData) {
               searchFields, tableFields, formFields,
               ...restJsonData
             } = jsonData;
-            const mapObj = createMapObj(map);
 
             return Promise.all([
               generateIndex({
@@ -95,9 +88,9 @@ module.exports = function (pageName, spinner, jsonData) {
                   pageName,
                   columns: 2,
                   ...genCRUDAPI(crudAPI),
-                  searchFields: formatFields(searchFields, mapObj, defaultSearchFields),
-                  tableFields: formatFields(tableFields, mapObj),
-                  formFields: formatFields(formFields, mapObj),
+                  searchFields: searchFields,
+                  tableFields: tableFields,
+                  formFields: formFields,
                   ...restJsonData,
                   map: mapObj,
                 }

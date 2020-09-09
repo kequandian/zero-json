@@ -115,7 +115,7 @@ program
           routerCreate(routeName, routePath);
         } else {
           console.log(`zero-json router create ${routeName} [routePath]\n`);
-          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage`);
+          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage, 实际输入: `, routePath);
         }
       },
       'remove': (routePath) => {
@@ -123,7 +123,7 @@ program
           routerRemove(routePath);
         } else {
           console.log(`zero-json router remove [routePath]\n`);
-          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage`);
+          console.log(`非法的 routePath 格式, 预期输入格式 myPages/myPage 或 myPage, 实际输入: `, routePath);
         }
       }
     };

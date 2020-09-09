@@ -2,12 +2,6 @@
   "pageName": "测试页面",
   "crudAPI": "/api/example",
   "columns": 2,
-  "map": {
-    "sex": {
-      "0": "男",
-      "1": "女"
-    }
-  },
   "searchFields": [
     {
       "field": "search",
@@ -22,13 +16,7 @@
     },
     {
       "label": "性别",
-      "field": "sex",
-      "options": {
-        "color": {
-          "0": "lightblue",
-          "1": "#fc7ebe"
-        }
-      }
+      "field": "sex"
     }
   ],
   "formFields": [

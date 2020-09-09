@@ -17,8 +17,6 @@ const {
 const {
   filterFields,
   genCRUDAPI,
-  createMapObj,
-  formatFields,
 } = require('../../utils/formatToBuildJSON');
 
 module.exports = function (pageName, scope, API) {
@@ -92,7 +90,6 @@ module.exports = function (pageName, scope, API) {
             searchFields, tableFields, formFields,
             ...restJsonData
           } = jsonData;
-          const mapObj = createMapObj(map);
 
           return Promise.all([
             generateIndex({
@@ -135,22 +132,11 @@ module.exports = function (pageName, scope, API) {
                 getAPI: '',
                 updateAPI: '',
                 deleteAPI: '',
-                searchFields: [
-                  { field: 'search', label: '搜索', type: 'input' },
-                ],
-                tableFields: [
-                  { field: 'id', label: 'ID' },
-                  { field: 'name', label: '名称' },
-                ],
-                formFields: [
-                  { field: 'name', label: '名称', type: 'input' },
-                ],
                 ...genCRUDAPI(crudAPI, '?categoryId=<id>'),
-                searchFields: formatFields(searchFields, mapObj),
-                tableFields: formatFields(tableFields, mapObj),
-                formFields: formatFields(formFields, mapObj),
+                searchFields: searchFields,
+                tableFields: tableFields,
+                formFields: formFields,
                 ...restJsonData,
-                map: mapObj,
               }
             }),
           ]);
