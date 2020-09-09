@@ -44,27 +44,9 @@ module.exports = {
           listAPI: setting.listAPI,
           deleteAPI: setting.deleteAPI,
         },
-        actions: [
-          {
-            title: '新增', type: 'path',
-            options: {
-              path: '${name}/${name}-add',
-            },
-          }
-        ],
+        actions: setting.tableActions,
         fields: setting.tableFields,
-        operation: [
-          {
-            title: '编辑', type: 'path',
-            options: {
-              outside: true,
-              path: '${name}/${name}-edit',
-            },
-          },
-          {
-            title: '删除', type: 'delete',
-          },
-        ]
+        operation: setting.tableOperation,
       },
     },
   ],
