@@ -92,7 +92,6 @@ module.exports = function (pageName, spinner, jsonData) {
                   tableFields: tableFields,
                   formFields: formFields,
                   ...restJsonData,
-                  map: mapObj,
                 }
               }),
             ]);
