@@ -88,6 +88,10 @@ module.exports = function (pageName, spinner, jsonData) {
                   pageName,
                   columns: 2,
                   ...genCRUDAPI(crudAPI),
+                  layout: {
+                    table: 'TitleContent',
+                    form: 'TitleContent',
+                  },
                   searchFields: searchFields,
                   tableFields: tableFields,
                   formFields: formFields,

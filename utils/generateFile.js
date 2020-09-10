@@ -28,7 +28,7 @@ function generateTableConfig({ filePath, name }) {
     `const setting = require('./${name}-setting.json');
 
 module.exports = {
-  layout: 'TitleContent',
+  layout: setting.layout.table,
   title: setting.pageName,
   items: [
     {
@@ -61,7 +61,7 @@ function generateCategoryTableConfig({ filePath, name, scope }) {
     `const setting = require('./${name}-setting.json');
 
 module.exports = {
-  layout: 'TitleContent',
+  layout: setting.layout.table,
   title: setting.pageName,
   items: [
     {
@@ -111,7 +111,7 @@ function generateAddFormConfig({ filePath, name }) {
     `const setting = require('./${name}-setting.json');
 
 module.exports = {
-  layout: 'TitleContent',
+  layout: setting.layout.form,
   title: '新增' + setting.pageName,
   items: [
     {
@@ -139,7 +139,7 @@ function generateEditFormConfig({ filePath, name }) {
     `const setting = require('./${name}-setting.json');
 
 module.exports = {
-  layout: 'TitleContent',
+  layout: setting.layout.form,
   title: '编辑' + setting.pageName,
   items: [
     {
