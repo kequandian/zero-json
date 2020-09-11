@@ -31,7 +31,7 @@ module.exports = function (originFieldName = 'build.json', API) {
     fs.existsSync(outFilePath),
     function () {
       return read(API).then(data => {
-        if(data instanceof Error) {
+        if (data instanceof Error) {
           throw data;
         }
         const jsonData = {
@@ -40,7 +40,9 @@ module.exports = function (originFieldName = 'build.json', API) {
           tableFields: filterFields(data.get.fields),
           formFields: filterFields(data.post.fields),
         }
-        return fs.writeJson(path.join(outPath, fileName), jsonData);
+        return fs.writeJson(path.join(outPath, fileName), jsonData, {
+          spaces: 2,
+        });
       })
         .then(_ => {
           spinner.succeed(`build json 文件已生成`);
