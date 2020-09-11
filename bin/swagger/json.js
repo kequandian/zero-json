@@ -30,6 +30,9 @@ module.exports = function (originFieldName = 'build.json', API) {
     fs.existsSync(outFilePath),
     function () {
       return read(API).then(data => {
+        if(data instanceof Error) {
+          throw data;
+        }
         const jsonData = {
           ...genCRUDAPI(API),
           tableFields: filterFields(data.get.fields),
