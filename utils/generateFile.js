@@ -195,5 +195,7 @@ module.exports = {
 function generateSettingFile({ filePath, data }) {
   fs.ensureDirSync(path.dirname(filePath));
 
-  return fs.writeJson(filePath, data)
+  return fs.writeJson(filePath, data, {
+    spaces: 2,
+  })
 }
