@@ -46,7 +46,7 @@ module.exports = function (pageName, spinner, jsonData) {
         fs.ensureDir(`${pagesPath}/config`)
           .then(_ => {
             const {
-              crudAPI, map = {},
+              crudAPI,
               searchFields = [], tableFields, formFields,
               ...restJsonData
             } = jsonData;

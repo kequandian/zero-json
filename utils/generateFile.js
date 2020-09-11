@@ -166,28 +166,18 @@ module.exports = {
 function generateDetailConfig({ filePath, name }) {
 
   return fs.writeFile(filePath,
-    `const setting = require('./${name}-setting.json');
+    `import React from 'react';
+import setting from './config/${name}-setting';
+import Details from '@/components/Details';
 
-module.exports = {
-  layout: setting.layout.form,
-  title: '编辑' + setting.pageName,
-  items: [
-    {
-      component: 'Form',
-      config: {
-        API: {
-          getAPI: setting.getAPI,
-          updateAPI: setting.updateAPI,
-        },
-        layout: 'Grid',
-        layoutConfig: {
-          value: Array(setting.columns).fill(~~(24 / setting.columns)),
-        },
-        fields: setting.updateFields || setting.formFields,
-      },
-    },
-  ],
-};
+export default () => <>
+  <Details namespace="${namespace}" 
+    API={setting.getAPI}
+    fields={setting.viewFields}
+    map={setting.map}
+    col={setting.col}
+  />
+</>
 `
   )
 }
