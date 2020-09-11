@@ -5,6 +5,7 @@ const path = require('path');
 const confirm = require('../../utils/confirm');
 const read = require('../../utils/swagger/read');
 const program = require('commander');
+const baseSetting = require('../utils/baseSetting');
 
 const {
   generateIndex,
@@ -37,6 +38,7 @@ module.exports = function (pageName, scope, API) {
     canReadJson = _ => read(API)
       .then(data => {
         jsonData = {
+          ...baseSetting,
           ...genCRUDAPI(API, '?categoryId=<id>'),
           tableFields: filterFields(data.get.fields),
           formFields: filterFields(data.post.fields),
@@ -126,6 +128,7 @@ module.exports = function (pageName, scope, API) {
             generateSettingFile({
               filePath: outFileList[7],
               data: {
+                ...restJsonData,
                 pageName,
                 listAPI: '',
                 createAPI: '',
@@ -140,7 +143,6 @@ module.exports = function (pageName, scope, API) {
                 searchFields: searchFields,
                 tableFields: tableFields,
                 formFields: formFields,
-                ...restJsonData,
               }
             }),
           ]);

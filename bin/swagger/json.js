@@ -5,6 +5,7 @@ const path = require('path');
 const confirm = require('../../utils/confirm');
 const read = require('../../utils/swagger/read');
 const program = require('commander');
+const baseSetting = require('../utils/baseSetting');
 
 const {
   filterFields,
@@ -34,6 +35,7 @@ module.exports = function (originFieldName = 'build.json', API) {
           throw data;
         }
         const jsonData = {
+          ...baseSetting,
           ...genCRUDAPI(API),
           tableFields: filterFields(data.get.fields),
           formFields: filterFields(data.post.fields),

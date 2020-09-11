@@ -29,7 +29,9 @@ module.exports = function format(pwdPath) {
       const current = rstData[API];
       checkRef(current, jsonData);
     });
-    return fs.outputFile(`${path.dirname(swaggerFilePath)}/format.json`, JSON.stringify(rstData, null, 2));
+    return fs.outputFile(`${path.dirname(swaggerFilePath)}/format.json`, JSON.stringify(rstData, null, 2), {
+      encoding: 'utf-8'
+    });
   });
 }
 

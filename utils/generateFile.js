@@ -7,6 +7,7 @@ module.exports = {
   generateCategoryTableConfig,
   generateAddFormConfig,
   generateEditFormConfig,
+  generateDetailConfig,
   generateSettingFile,
 };
 
@@ -134,6 +135,35 @@ module.exports = {
 }
 
 function generateEditFormConfig({ filePath, name }) {
+
+  return fs.writeFile(filePath,
+    `const setting = require('./${name}-setting.json');
+
+module.exports = {
+  layout: setting.layout.form,
+  title: '编辑' + setting.pageName,
+  items: [
+    {
+      component: 'Form',
+      config: {
+        API: {
+          getAPI: setting.getAPI,
+          updateAPI: setting.updateAPI,
+        },
+        layout: 'Grid',
+        layoutConfig: {
+          value: Array(setting.columns).fill(~~(24 / setting.columns)),
+        },
+        fields: setting.updateFields || setting.formFields,
+      },
+    },
+  ],
+};
+`
+  )
+}
+
+function generateDetailConfig({ filePath, name }) {
 
   return fs.writeFile(filePath,
     `const setting = require('./${name}-setting.json');

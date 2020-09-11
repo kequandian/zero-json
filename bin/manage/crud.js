@@ -6,6 +6,7 @@ const fs = require('fs-extra');
 
 const read = require('../../utils/swagger/read');
 const genCRUDPage = require('../utils/genCRUDPage');
+const baseSetting = require('../utils/baseSetting');
 const {
   filterFields,
   genCRUDAPI,
@@ -23,6 +24,7 @@ module.exports = function (pageName, API) {
     canReadJson = _ => read(API)
       .then(data => {
         jsonData = {
+          ...baseSetting,
           ...genCRUDAPI(API),
           tableFields: filterFields(data.get.fields),
           formFields: filterFields(data.post.fields),

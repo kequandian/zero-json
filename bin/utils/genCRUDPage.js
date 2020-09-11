@@ -47,7 +47,7 @@ module.exports = function (pageName, spinner, jsonData) {
           .then(_ => {
             const {
               crudAPI, map = {},
-              searchFields, tableFields, formFields,
+              searchFields = [], tableFields, formFields,
               ...restJsonData
             } = jsonData;
 
