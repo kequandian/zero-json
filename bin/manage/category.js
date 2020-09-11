@@ -12,6 +12,7 @@ const {
   generateCategoryTableConfig,
   generateAddFormConfig,
   generateEditFormConfig,
+  generateDetailConfig,
   generateSettingFile,
 } = require('../../utils/generateFile');
 
@@ -69,8 +70,7 @@ module.exports = function (pageName, scope, API) {
     path.join(pagesPath, `index.js`),
     path.join(pagesPath, `${pageName}-add.js`),
     path.join(pagesPath, `${pageName}-edit.js`),
-    // path.join(pagesPath, `${pageName}-view.js`),
-    undefined,
+    path.join(pagesPath, `${pageName}-view.js`),
     path.join(pagesPath, `config/index.js`),
     path.join(pagesPath, `config/${pageName}-add.js`),
     path.join(pagesPath, `config/${pageName}-edit.js`),
@@ -108,6 +108,11 @@ module.exports = function (pageName, scope, API) {
               filePath: outFileList[2],
               namespace: `${pageName}_edit`,
               type: `${pageName}-edit`,
+            }),
+            generateDetailConfig({
+              filePath: outFileList[3],
+              namespace: pageName,
+              name: pageName,
             }),
 
             generateCategoryTableConfig({

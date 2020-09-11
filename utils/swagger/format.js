@@ -70,19 +70,22 @@ function checkRef(current, jsonData) {
 }
 
 function formatRef(ref, jsonData, type) {
-  const refArray = ref.replace('#/', '').split('/');
+  if (typeof ref === 'string') {
+    const refArray = ref.replace('#/', '').split('/');
 
-  let refObj = jsonData;
-  refArray.forEach(key => {
-    refObj = refObj[key];
-  });
-  const fields = [];
-  Object.keys(refObj.properties).forEach(field => {
-    fields.push(
-      formatField(field, refObj.properties[field], jsonData, type)
-    );
-  });
-  return fields;
+    let refObj = jsonData;
+    refArray.forEach(key => {
+      refObj = refObj[key];
+    });
+    const fields = [];
+    Object.keys(refObj.properties).forEach(field => {
+      fields.push(
+        formatField(field, refObj.properties[field], jsonData, type)
+      );
+    });
+    return fields;
+  }
+  return [{ field: 'demo', label: '非标准的格式' }]
 }
 
 /**

@@ -163,7 +163,7 @@ module.exports = {
   )
 }
 
-function generateDetailConfig({ filePath, name }) {
+function generateDetailConfig({ filePath, namespace, name }) {
 
   return fs.writeFile(filePath,
     `import React from 'react';
