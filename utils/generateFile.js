@@ -168,16 +168,17 @@ function generateDetailConfig({ filePath, namespace, name }) {
   return fs.writeFile(filePath,
     `import React from 'react';
 import setting from './config/${name}-setting';
+import Card from '@/components/Card';
 import Details from '@/components/Details';
 
-export default () => <>
+export default () => <Card title={\`\${setting.pageName}详情\`}>
   <Details namespace="${namespace}" 
     API={setting.getAPI}
     fields={setting.viewFields}
     map={setting.map}
     col={setting.col}
   />
-</>
+</Card>
 `
   )
 }
