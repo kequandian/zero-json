@@ -176,7 +176,7 @@ export default () => <Card title={\`\${setting.pageName}详情\`}>
     API={setting.getAPI}
     fields={setting.viewFields}
     map={setting.map}
-    col={setting.col}
+    col={setting.columns}
   />
 </Card>
 `
