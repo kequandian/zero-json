@@ -11,4 +11,5 @@ module.exports = {
   tableOperation: [],
   formFields: [],
   viewFields: [],
+  viewOthers: [],
 };

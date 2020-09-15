@@ -163,24 +163,72 @@ module.exports = {
   )
 }
 
-function generateDetailConfig({ filePath, namespace, name }) {
+function generateDetailConfig({ filePath, namespace, name, viewOthers }) {
 
   return fs.writeFile(filePath,
     `import React from 'react';
 import setting from './config/${name}-setting';
 import Card from '@/components/Card';
 import Details from '@/components/Details';
+import useDetails from '@/components/Details/hooks';
+import { Flex } from 'layout-flex';
+import { Button } from 'antd';
 
-export default () => <Card title={\`\${setting.pageName}详情\`}>
-  <Details namespace="${namespace}" 
-    API={setting.getAPI}
-    fields={setting.viewFields}
-    map={setting.map}
-    col={setting.columns}
-  />
-</Card>
+const { FlexItem } = Flex;
+
+export default () => {
+  const [data, loading] = useDetails('${namespace}', setting.getAPI);
+
+  return <Flex align="flex-start">
+  <FlexItem flex={1}>
+    <Card title={\`\${setting.pageName}详情\`}>
+      <Details namespace="${namespace}"
+        fields={setting.viewFields}
+        map={setting.map}
+        col={setting.columns}
+        data={data}
+        loading={loading}
+      />
+    </Card>
+  </FlexItem>
+  ${viewOthers && viewOthers.length ?
+      `<FlexItem className="Details-other">
+${viewOthers.map(({ title, type }, i) =>
+        type === 'statusList' ? detailStatusList(title)
+          : detailPlain(namespace, title, i))
+        .join('\n    <br />\n')
+      }
+  </FlexItem>`
+      : ''}
+</Flex>
+}
 `
   )
+}
+
+function detailPlain(namespace, title, index) {
+  return `    <Card title="${title}">
+      <Details namespace="${namespace}"
+        fields={setting.viewOthers[${index}].fields}
+        map={setting.map}
+        col={setting.columns}
+        data={data}
+        loading={loading}
+      />
+    </Card>`
+}
+
+function detailStatusList(title) {
+  return `    <Card title="${title}">
+      <div className="Details-statusList">
+        {data && data.statusList && data.statusList.map(item => {
+          return <div className="time">
+            <div className="label">{ item.title }</div>
+            <div className="value">{ item.note }</div>
+          </div>
+        })}
+      </div>
+    </Card>`
 }
 
 function generateSettingFile({ filePath, data }) {

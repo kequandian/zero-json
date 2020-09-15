@@ -48,6 +48,7 @@ module.exports = function (pageName, spinner, jsonData) {
             const {
               crudAPI,
               searchFields = [], tableFields, formFields,
+              viewOthers,
               ...restJsonData
             } = jsonData;
 
@@ -71,6 +72,7 @@ module.exports = function (pageName, spinner, jsonData) {
                 filePath: outFileList[3],
                 namespace: pageName,
                 name: pageName,
+                viewOthers,
               }),
 
               generateTableConfig({
@@ -90,6 +92,7 @@ module.exports = function (pageName, spinner, jsonData) {
               generateSettingFile({
                 filePath: outFileList[7],
                 data: {
+                  ...restJsonData,
                   pageName,
                   columns: 2,
                   ...genCRUDAPI(crudAPI),
@@ -100,7 +103,7 @@ module.exports = function (pageName, spinner, jsonData) {
                   searchFields: searchFields,
                   tableFields: tableFields,
                   formFields: formFields,
-                  ...restJsonData,
+                  viewOthers,
                 }
               }),
             ]);

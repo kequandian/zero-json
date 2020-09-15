@@ -90,6 +90,7 @@ module.exports = function (pageName, scope, API) {
           const {
             crudAPI, map = {},
             searchFields, tableFields, formFields,
+            viewOthers,
             ...restJsonData
           } = jsonData;
 
@@ -113,6 +114,7 @@ module.exports = function (pageName, scope, API) {
               filePath: outFileList[3],
               namespace: pageName,
               name: pageName,
+              viewOthers,
             }),
 
             generateCategoryTableConfig({
@@ -148,6 +150,7 @@ module.exports = function (pageName, scope, API) {
                 searchFields: searchFields,
                 tableFields: tableFields,
                 formFields: formFields,
+                viewOthers,
               }
             }),
           ]);
