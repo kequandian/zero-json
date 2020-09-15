@@ -1,6 +1,6 @@
 {
   "name": "zero-json",
-  "version": "2.7.12",
+  "version": "2.8.0",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -24,6 +24,7 @@
     "node-html-parser": "^1.1.15",
     "ora": "^3.0.0",
     "shelljs": "^0.8.3",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "yaml": "^1.10.0"
   }
 }

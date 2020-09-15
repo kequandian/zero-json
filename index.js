@@ -3,7 +3,10 @@
 const program = require('commander');
 const shell = require('shelljs');
 const path = require('path');
-const { ls: swaggerLs, format: swaggerFormat, json: swaggerJson } = require('./bin/swagger');
+const {
+  ls: swaggerLs, format: swaggerFormat,
+  json: swaggerJson, yaml: swaggerYaml
+} = require('./bin/swagger');
 
 const {
   init: manageInit,
@@ -60,7 +63,8 @@ program
     'swagger 工具',
     '  -> swagger ls [filter] 列出 swagger 可用的 API',
     '  -> swagger format 重新 format swagger.json 文件',
-    '  -> swagger json [fileName] 生成一个 BUILD JSON 文件',
+    '  -> swagger json [fileName] [--API] 生成一个 BUILD JSON 文件',
+    '  -> swagger yaml [fileName] [--API] 生成一个 crudless.yml 文件',
   ].join('\n'))
   .action(function () {
     const [action, ...restArg] = arguments;
@@ -73,6 +77,9 @@ program
       },
       'json': (fileName) => {
         swaggerJson(fileName, replaceAPIRootPath(program.API));
+      },
+      'yaml': (fileName) => {
+        swaggerYaml(fileName, replaceAPIRootPath(program.API));
       },
     };
     (actionMap[action] || tipsActionList.bind(null, actionMap))(...restArg);
