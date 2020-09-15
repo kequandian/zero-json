@@ -95,10 +95,6 @@ module.exports = function (pageName, spinner, jsonData) {
                   pageName,
                   ...restJsonData,
                   ...genCRUDAPI(crudAPI),
-                  layout: {
-                    table: 'TitleContent',
-                    form: 'TitleContent',
-                  },
                   searchFields: searchFields,
                   tableFields: tableFields,
                   formFields: formFields,

@@ -143,10 +143,6 @@ module.exports = function (pageName, scope, API) {
                 updateAPI: '',
                 deleteAPI: '',
                 ...genCRUDAPI(crudAPI, '?categoryId=<id>'),
-                layout: {
-                  table: 'TitleContent',
-                  form: 'TitleContent',
-                },
                 searchFields: searchFields,
                 tableFields: tableFields,
                 formFields: formFields,
