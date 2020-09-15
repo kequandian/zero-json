@@ -42,6 +42,7 @@ Commands:
     -> manage category <pageName> <scope> [...opt] 通过指定的 BUILD JSON 文件生成带有分类功能的 CRUD 页面
   swagger <action> [arguments]  swagger 工具
     -> swagger ls [filter] 列出 swagger 可用的 API
+    -> swagger format 重新 format swagger.json 文件
     -> swagger json [fileName] [--API] 生成一个 BUILD JSON 文件
     -> swagger yaml [fileName] [--API] 生成一个 crudless.yml 文件
   mock <port>                   基于 BUILD JSON 来启动一个简单的 mock 服务器
@@ -55,5 +56,7 @@ Commands:
 [生成项目并测试页面](./doc/README.md)
 
 [BUILD JSON 文件的生成](./doc/build.json.md)
+
+[crueless 文件的生成](./doc/crudless.md)
 
 [BUILD JSON 文件的格式](./doc/BUILD%20JSON.json)
