@@ -92,9 +92,8 @@ module.exports = function (pageName, spinner, jsonData) {
               generateSettingFile({
                 filePath: outFileList[7],
                 data: {
-                  ...restJsonData,
                   pageName,
-                  columns: 2,
+                  ...restJsonData,
                   ...genCRUDAPI(crudAPI),
                   layout: {
                     table: 'TitleContent',
