@@ -12,8 +12,14 @@ const {
   genCRUDAPI,
 } = require('../../utils/formatToBuildJSON');
 
-module.exports = function (pageName, API) {
+module.exports = function (inputPageName, API) {
   const { inputPath: jsonPath } = program;
+
+  if (!jsonPath) {
+    throw new Error('需要通过参数 -i 来指定输入的 json 文件');
+  }
+
+  const pageName = inputPageName || path.basename(jsonPath, '.json');
 
   const spinner = ora(`生成 CRUD 后台管理页面 ${pageName}`).start();
 
@@ -36,15 +42,6 @@ module.exports = function (pageName, API) {
         spinner.info(`读取 json ${jsonPath} 生成 CRUD 后台管理页面 ${pageName}`);
         return fs.readJson(jsonPath)
           .then(value => jsonData = value)
-      } else {
-        const defaultJSONFile = path.join(process.cwd(), 'build.json');
-        spinner.info(`未通过参数 -i 输入 json 文件, 尝试读取 ${defaultJSONFile}`);
-        return fs.readJson(defaultJSONFile)
-          .then(value => jsonData = value)
-          .catch(_ => {
-            spinner.warn('读取 json 失败, 将会使用默认值来生成 CRUD 后台管理页面');
-            return Promise.resolve();
-          })
       }
     }
   }
