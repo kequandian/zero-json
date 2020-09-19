@@ -136,7 +136,6 @@ module.exports = function (pageName, scope, API) {
               filePath: outFileList[7],
               data: {
                 ...restJsonData,
-                pageName,
                 listAPI: '',
                 createAPI: '',
                 getAPI: '',

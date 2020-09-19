@@ -30,7 +30,7 @@ function generateTableConfig({ filePath, name }) {
 
 module.exports = {
   layout: setting.layout.table,
-  title: setting.pageName,
+  title: setting.pageName.table,
   items: [
     {
       component: 'Search',
@@ -63,7 +63,7 @@ function generateCategoryTableConfig({ filePath, name, scope }) {
 
 module.exports = {
   layout: setting.layout.table,
-  title: setting.pageName,
+  title: setting.pageName.table,
   items: [
     {
       component: 'TreeList',
@@ -113,7 +113,7 @@ function generateAddFormConfig({ filePath, name }) {
 
 module.exports = {
   layout: setting.layout.form,
-  title: '新增' + setting.pageName,
+  title: setting.pageName.new,
   items: [
     {
       component: 'Form',
@@ -141,7 +141,7 @@ function generateEditFormConfig({ filePath, name }) {
 
 module.exports = {
   layout: setting.layout.form,
-  title: '编辑' + setting.pageName,
+  title: setting.pageName.edit,
   items: [
     {
       component: 'Form',
@@ -181,7 +181,7 @@ export default () => {
 
   return <Flex align="flex-start">
   <FlexItem flex={1}>
-    <Card title={\`\${setting.pageName}详情\`}>
+    <Card title={setting.pageName.view}>
       <Details namespace="${namespace}"
         fields={setting.viewFields}
         map={setting.map}
