@@ -163,7 +163,7 @@ module.exports = {
   )
 }
 
-function generateDetailConfig({ filePath, namespace, name, viewOthers }) {
+function generateDetailConfig({ filePath, namespace, name, viewOthers, viewItems }) {
 
   return fs.writeFile(filePath,
     `import React from 'react';
@@ -173,6 +173,8 @@ import Details from '@/components/Details';
 import useDetails from '@/components/Details/hooks';
 import { Flex } from 'layout-flex';
 import { Button } from 'antd';
+import ImageCardList from '@/components/Details/components/ImageCardList';
+import Statuslog from '@/components/Details/components/Statuslog';
 
 const { FlexItem } = Flex;
 
@@ -190,11 +192,21 @@ export default () => {
         loading={loading}
       />
     </Card>
+    <br />
+    ${viewItems ? `<ImageCardList
+      title="${viewItems.title}"
+      namespace="${namespace}"
+      API="${viewItems.api}"
+      map={${JSON.stringify(viewItems.map, null, 6)}}
+      format={${JSON.stringify(viewItems.format, null, 6)}}
+      operation={${JSON.stringify(viewItems.operation, null, 6)}}
+    />` : ''}
+    <br /><br />
   </FlexItem>
   ${viewOthers && viewOthers.length ?
       `<FlexItem className="Details-other">
-${viewOthers.map(({ title, type }, i) =>
-        type === 'statusList' ? detailStatusList(title)
+${viewOthers.map(({ title, type, api }, i) =>
+        type === 'statusList' ? detailStatusList(title, api)
           : detailPlain(namespace, title, i))
         .join('\n    <br />\n')
       }
@@ -218,17 +230,13 @@ function detailPlain(namespace, title, index) {
     </Card>`
 }
 
-function detailStatusList(title) {
-  return `    <Card title="${title}">
-      <div className="Details-statusList">
-        {data && data.statusList && data.statusList.map(item => {
-          return <div className="time">
-            <div className="label">{ item.title }</div>
-            <div className="value">{ item.note }</div>
-          </div>
-        })}
-      </div>
-    </Card>`
+function detailStatusList(title, API) {
+  return `    <Statuslog
+      title="${title}"
+      API="${API}"
+      map={setting.map.status.map}
+    >
+    </Statuslog>`
 }
 
 function generateSettingFile({ filePath, data }) {

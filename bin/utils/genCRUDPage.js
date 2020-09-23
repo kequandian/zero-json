@@ -49,6 +49,7 @@ module.exports = function (pageName, spinner, jsonData) {
               crudAPI,
               searchFields = [], tableFields, formFields,
               viewOthers,
+              viewItems,
               ...restJsonData
             } = jsonData;
 
@@ -73,6 +74,7 @@ module.exports = function (pageName, spinner, jsonData) {
                 namespace: pageName,
                 name: pageName,
                 viewOthers,
+                viewItems,
               }),
 
               generateTableConfig({
