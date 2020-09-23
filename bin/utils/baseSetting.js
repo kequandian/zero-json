@@ -3,7 +3,6 @@ module.exports = {
     table: '列表',
     new: '新增数据',
     edit: '编辑数据',
-    view: '页面详情',
   },
   columns: 2,
   searchFields: [],

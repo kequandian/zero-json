@@ -163,80 +163,24 @@ module.exports = {
   )
 }
 
-function generateDetailConfig({ filePath, namespace, name, viewOthers, viewItems }) {
+function generateDetailConfig({ filePath, namespace, name }) {
 
   return fs.writeFile(filePath,
     `import React from 'react';
+import DetailsTemplate from '@/components/Details/DetailsTemplate';
 import setting from './config/${name}-setting';
-import Card from '@/components/Card';
-import Details from '@/components/Details';
-import useDetails from '@/components/Details/hooks';
-import { Flex } from 'layout-flex';
-import { Button } from 'antd';
-import ImageCardList from '@/components/Details/components/ImageCardList';
-import Statuslog from '@/components/Details/components/Statuslog';
-
-const { FlexItem } = Flex;
-
+    
 export default () => {
-  const [data, loading] = useDetails('${namespace}', setting.getAPI);
 
-  return <Flex align="flex-start">
-  <FlexItem flex={1}>
-    <Card title={setting.pageName.view}>
-      <Details namespace="${namespace}"
-        fields={setting.viewFields}
-        map={setting.map}
-        col={setting.columns}
-        data={data}
-        loading={loading}
-      />
-    </Card>
-    <br />
-    ${viewItems ? `<ImageCardList
-      title="${viewItems.title}"
-      namespace="${namespace}"
-      API="${viewItems.api}"
-      map={${JSON.stringify(viewItems.map, null, 6)}}
-      format={${JSON.stringify(viewItems.format, null, 6)}}
-      operation={${JSON.stringify(viewItems.operation, null, 6)}}
-    />` : ''}
-    <br /><br />
-  </FlexItem>
-  ${viewOthers && viewOthers.length ?
-      `<FlexItem className="Details-other">
-${viewOthers.map(({ title, type, api }, i) =>
-        type === 'statusList' ? detailStatusList(title, api)
-          : detailPlain(namespace, title, i))
-        .join('\n    <br />\n')
-      }
-  </FlexItem>`
-      : ''}
-</Flex>
+  return <DetailsTemplate
+    namespace="${namespace}"
+    setting={setting}
+    config={setting.viewConfig}
+  />
 }
+    
 `
   )
-}
-
-function detailPlain(namespace, title, index) {
-  return `    <Card title="${title}">
-      <Details namespace="${namespace}"
-        fields={setting.viewOthers[${index}].fields}
-        map={setting.map}
-        col={setting.columns}
-        data={data}
-        loading={loading}
-      />
-    </Card>`
-}
-
-function detailStatusList(title, API) {
-  return `    <Statuslog
-      title="${title}"
-      API="${API}"
-      map={setting.map.status.map}
-    >
-    </Statuslog>`
 }
 
 function generateSettingFile({ filePath, data }) {
