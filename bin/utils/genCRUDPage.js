@@ -11,6 +11,8 @@ const {
   generateEditFormConfig,
   generateDetailConfig,
   generateSettingFile,
+
+  generateAutoReport,
 } = require('../../utils/generateFile');
 
 const {
@@ -52,55 +54,84 @@ module.exports = function (pageName, spinner, jsonData) {
               ...restJsonData
             } = jsonData;
 
-            return Promise.all([
-              generateIndex({
-                filePath: outFileList[0],
-                namespace: pageName,
-                type: 'index',
-              }),
-              generateIndex({
-                filePath: outFileList[1],
-                namespace: `${pageName}_add`,
-                type: `${pageName}-add`,
-              }),
-              generateIndex({
-                filePath: outFileList[2],
-                namespace: `${pageName}_edit`,
-                type: `${pageName}-edit`,
-              }),
-              generateDetailConfig({
-                filePath: outFileList[3],
-                namespace: pageName,
-                name: pageName,
-              }),
+            if (tableFields && tableFields.length) {
+              return Promise.all([
+                generateIndex({
+                  filePath: outFileList[0],
+                  namespace: pageName,
+                  type: 'index',
+                }),
+                generateIndex({
+                  filePath: outFileList[1],
+                  namespace: `${pageName}_add`,
+                  type: `${pageName}-add`,
+                }),
+                generateIndex({
+                  filePath: outFileList[2],
+                  namespace: `${pageName}_edit`,
+                  type: `${pageName}-edit`,
+                }),
+                generateDetailConfig({
+                  filePath: outFileList[3],
+                  namespace: pageName,
+                  name: pageName,
+                }),
 
-              generateTableConfig({
-                filePath: outFileList[4],
-                name: pageName,
-              }),
-              generateAddFormConfig({
-                filePath: outFileList[5],
-                name: pageName,
-              }),
-              generateEditFormConfig({
-                filePath: outFileList[6],
-                name: pageName,
-              }),
+                generateTableConfig({
+                  filePath: outFileList[4],
+                  name: pageName,
+                }),
+                generateAddFormConfig({
+                  filePath: outFileList[5],
+                  name: pageName,
+                }),
+                generateEditFormConfig({
+                  filePath: outFileList[6],
+                  name: pageName,
+                }),
 
 
-              generateSettingFile({
-                filePath: outFileList[7],
-                data: {
-                  pageName,
-                  ...restJsonData,
-                  ...genCRUDAPI(crudAPI),
-                  searchFields: searchFields,
-                  tableFields: tableFields,
-                  formFields: formFields,
-                  viewConfig,
-                }
-              }),
-            ]);
+                generateSettingFile({
+                  filePath: outFileList[7],
+                  data: {
+                    pageName,
+                    ...restJsonData,
+                    ...genCRUDAPI(crudAPI),
+                    searchFields: searchFields,
+                    tableFields: tableFields,
+                    formFields: formFields,
+                    viewConfig,
+                  }
+                }),
+              ]);
+
+
+            } else {
+              return Promise.all([
+                generateIndex({
+                  filePath: outFileList[0],
+                  namespace: pageName,
+                  type: 'index',
+                }),
+                generateAutoReport({
+                  filePath: outFileList[4],
+                  name: pageName,
+                }),
+                generateSettingFile({
+                  filePath: outFileList[7],
+                  data: {
+                    pageName,
+                    ...restJsonData,
+                    ...genCRUDAPI(crudAPI),
+                    searchFields: [],
+                    tableFields: [],
+                    formFields: [],
+                    viewConfig,
+                  }
+                }),
+              ]);
+            }
+
           })
           .then(_ => {
             spinner.succeed('文件已生成\n');

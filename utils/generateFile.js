@@ -9,6 +9,8 @@ module.exports = {
   generateEditFormConfig,
   generateDetailConfig,
   generateSettingFile,
+
+  generateAutoReport,
 };
 
 function generateIndex({ filePath, namespace, type }) {
@@ -189,4 +191,35 @@ function generateSettingFile({ filePath, data }) {
   return fs.writeJson(filePath, data, {
     spaces: 2,
   })
+}
+
+function generateAutoReport({ filePath, name }) {
+
+  return fs.writeFile(filePath,
+    `const setting = require('./${name}-setting.json');
+
+module.exports = {
+  layout: setting.layout.form,
+  title: setting.pageName.table,
+  items: [
+    {
+      component: 'AutoReportSearch',
+      config: {},
+    },
+    {
+      component: 'AutoReport',
+      config: {
+        pageSize: 20,
+        API: {
+          listAPI: setting.listAPI,
+        },
+        actions: setting.tableActions,
+        fields: [],
+        operation: []
+      },
+    },
+  ],
+};
+`
+  )
 }
