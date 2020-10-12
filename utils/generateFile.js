@@ -175,7 +175,7 @@ import setting from './config/${name}-setting';
 export default () => {
 
   return <DetailsTemplate
-    namespace="${namespace}"
+    namespace="${namespace}_view"
     setting={setting}
     config={setting.viewConfig}
   />
