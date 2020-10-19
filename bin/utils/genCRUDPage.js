@@ -38,10 +38,6 @@ module.exports = function (pageName, spinner, jsonData) {
 
     spinner.info(`正在生成 CRUD 页面: ${pageName}`);
 
-    outFileList.forEach(f => {
-      f && spinner.info(`预期生成文件：${f}`);
-    })
-
     confirm(
       fs.existsSync(pagesPath),
       function () {
@@ -55,6 +51,10 @@ module.exports = function (pageName, spinner, jsonData) {
             } = jsonData;
 
             if (tableFields && tableFields.length) {
+              outFileList.forEach(f => {
+                f && spinner.info(`预期生成文件：${f}`);
+              })
+
               return Promise.all([
                 generateIndex({
                   filePath: outFileList[0],
@@ -107,6 +107,10 @@ module.exports = function (pageName, spinner, jsonData) {
 
 
             } else {
+              [outFileList[0], outFileList[4], outFileList[7]].forEach(f => {
+                f && spinner.info(`预期生成报表文件：${f}`);
+              })
+
               return Promise.all([
                 generateIndex({
                   filePath: outFileList[0],
