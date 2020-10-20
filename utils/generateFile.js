@@ -199,7 +199,7 @@ function generateAutoReport({ filePath, name }) {
     `const setting = require('./${name}-setting.json');
 
 module.exports = {
-  layout: setting.layout.form,
+  layout: setting.layout.table,
   title: setting.pageName.table,
   items: [
     {
