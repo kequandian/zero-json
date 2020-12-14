@@ -34,6 +34,10 @@ module.exports = {
   layout: setting.layout.table,
   title: setting.pageName.table,
   items: [
+    process.env.NODE_ENV !== 'development' ?
+      {
+        component: 'EditList',
+      } : { component: 'Empty' },
     {
       component: 'Search',
       config: {
@@ -67,6 +71,10 @@ module.exports = {
   layout: setting.layout.table,
   title: setting.pageName.table,
   items: [
+    process.env.NODE_ENV !== 'development' ?
+      {
+        component: 'EditList',
+      } : { component: 'Empty' },
     {
       component: 'TreeList',
       config: {
