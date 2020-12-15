@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  zeroelement:
+    image: sandbox:zero-json
+    command:
+      - zero-json
+      - swagger
+      - ls
+
+networks:
+  default:
+    name: sandbox_network
