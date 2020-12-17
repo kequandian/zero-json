@@ -25,7 +25,8 @@ module.exports = function (projectName) {
       function () {
         fs.remove(dirPath)
           .then(_ => {
-            clone(projectName, 'github@zele.pro:/home/github/isp/hub/llh/zero-code-template')
+            //clone(projectName, 'github@zele.pro:/home/github/isp/hub/llh/zero-code-template')
+            clone(projectName, 'https://github.com/kequandian/zero-element-scaffolding')
               .then((path) => {
                 if (path) {
                   shell.exec(`rm -rf ./${projectName}/.git`, function () {
