@@ -23,7 +23,7 @@
     "mockjs": "^1.1.0",
     "node-html-parser": "^1.1.15",
     "ora": "^3.0.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "shortid": "^2.2.15",
     "yaml": "^1.10.0"
   }
